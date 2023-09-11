@@ -1,6 +1,8 @@
 #ifndef OS7_H
 #define OS7_H
 
+#include <stdbool.h>
+
 #define READ_VRAM 0x1FE2
 #define WRITE_VRAM 0x1FDF
 #define READ_REGISTER 0x1FDC
@@ -19,6 +21,22 @@
 #define WR_SPR_NM_TBL 0x1FC4
 #define POLLER 0x1FEB
 #define DECODER 0x1F79
+#define INIT_WRITER 0x1FE5
+#define WRITER 0x1FE8
+#define INIT_TIMER 0x1FC7
+#define TIME_MGR 0x1FD3
+#define REQUEST_SIGNAL 0x1FCD
+#define TEST_SIGNAL 0x1FD0
+#define FREE_SIGNAL 0x1FCA
+#define SOUND_INIT 0x1FEE
+#define PLAY_IT 0x1FF1
+#define SOUND_MAN 0x1FF4
+#define PLAY_SONGS 0x1F61
+#define ADD816 0x01B1
+#define DECLSN 0x0190
+#define DECMSN 0x019B
+#define MSNTOLSN 0x01A6
+#define RAND_GEN 0x1FFD
 
 typedef enum _vdp_table
   {
@@ -157,5 +175,113 @@ void game_opt(void);
  * POLLER - Poll/Debounce controller data into controller data area
  */
 void poller(void);
+
+/** 
+ * @brief INIT_WRITER - Initializes deferred write queue
+ * @param size # of entries in queue, should equal desired queue size / 3
+ * @param location The location of queue in memory
+ */
+void init_writer(void *location, unsigned char size);
+
+/** 
+ * @brief WRITER - Calls PUTOBJ to do deferred object writes
+ */
+void writer(void);
+
+/** 
+ * @brief INIT_TIMER - Initializes the timer data areas
+ * @param timer_table location of timer table in cartridge memory
+ * @param timer_data_block location of timer data block in memory
+ */
+void init_timer(void *timer_table, void *timer_data_block);
+
+/** 
+ * @brief TIME_MGR - Called every NMI to decrement the active timers
+ */
+void time_mgr(void);
+
+/** 
+ * @brief REQUEST_SIGNAL - Requests a timer to start.
+ * @param len Length of timer (0-65535 frames)
+ * @param repeat true = reset and decrement when 0
+ * @return signal number.
+ */
+unsigned char request_signal(unsigned short len, bool repeat);
+
+/**
+ * @brief TEST_SIGNAL - Check if timer specified by signal_num has passed.
+ * @param signal_num  - The signal # to test (0-255)
+ * @return true if timer has passed, false if not.
+ */
+bool test_signal(unsigned char signal_num);
+
+/**
+ * @brief FREE_SIGNAL - Stop timer and remove it from tables
+ * @param signal_num  - The signal # to test (0-255)
+ */
+void free_signal(unsigned char signal_num);
+
+/**
+ * @brief DECODER - Scan and return decoded controller output
+ * @param controller_no - The controller # (0 or 1)
+ * @param segment_no - The segment # to decode (0 = fire/joy/spinner, 1 = keypad)
+ * @param buttons - destination pointer for button data
+ * @param control - destination pointer for controller/keyboard data
+ * @param spinner - destination pointer for spinner data.
+ */
+void decoder(unsigned char controller_no, unsigned char segment_no, unsigned char *buttons, unsigned char *control, unsigned char *spinner);
+
+/** 
+ * @brief SOUND_INIT - Initialize the sound routines
+ * @param sound_data_areas - # of sound data areas to initialize
+ * @param list_of_sound_addrs - base address of a list of starting addresses for each sund's note list and data area
+ */
+void sound_init(unsigned char sound_data_areas, void *list_of_sound_addrs);
+
+/** 
+ * @brief PLAY_IT - Trigger sound no.
+ * @param sound_no - The sound to trigger
+ */
+void play_it(unsigned char sound_no);
+
+/** 
+ * @brief SOUND_MAN - Updates sound state each VDP interrupt
+ */
+void sound_man(void);
+
+/** 
+ * @brief PLAY_SONGS - Updates sound state each VDP interrupt
+ */
+void play_songs(void);
+
+/** 
+ * ADD816 - Add 8-bit value to 16-bit value pointed to by address
+ * @param a - The number to add to value at addr
+ * @param addr - pointer to 16-bit number at address
+ */
+void add816(unsigned char a, unsigned short *addr);
+
+/** 
+ * DECLSN - Decrement least significant nibble at address
+ * @param addr - Address with least-significant nibble to decrement
+ */
+void declsn(unsigned short *addr);
+
+/** 
+ * DECMSN - Decrement most significant nibble at address
+ * @param addr - Address with mo st-significant nibble to decrement
+ */
+void decmsn(unsigned short *addr);
+
+/** 
+ * MSNTOLSN - Decrement most significant nibble at address
+ * @param addr - Address with mo st-significant nibble to decrement
+ */
+void msntolsn(unsigned short *addr);
+
+/** 
+ * RAND_GEN - Generate new 16-bit pseudo-random number, stuff at RAND_NUM
+ */
+void rand_gen(void);
 
 #endif /* OS7_H */
