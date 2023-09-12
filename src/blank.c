@@ -1,4 +1,8 @@
+#include <stdbool.h>
 #include "os7.h"
+
+#define BLANK_ON 0xE0
+#define BLANK_OFF 0xC0
 
 /**
  * @brief turn on or off screen rendering
