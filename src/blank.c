@@ -6,9 +6,9 @@
 
 /**
  * @brief turn on or off screen rendering
- * @param onoff - true = turn screen on, false = turn screen off (leaving backdrop color)
+ * @param onOff - true = turn screen on, false = turn screen off (leaving backdrop color)
  */
-void blank(bool onoff)
+void blank(bool onOff)
 {
   write_register(0x01,(onOff ? BLANK_ON : BLANK_OFF));
 }
