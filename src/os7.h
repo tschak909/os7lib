@@ -40,6 +40,8 @@
 #define DECMSN 0x019B
 #define MSNTOLSN 0x01A6
 #define RAND_GEN 0x1FFD
+#define ACTIVATE 0x1FF7
+#define PUT_OBJ 0x1FFA
 
 /**
  * @brief VDPTable values for get/put_vram
@@ -98,6 +100,49 @@ typedef unsigned char SignalNum;
  */
 typedef unsigned long TimerData;
 
+/**
+ * @brief A Semi-Mobile Object top level definition
+ */
+typedef struct _smo
+{
+  void *graphics_addr;        // pointer in ROM to graphics object
+  void *status_addr;          // pointer in RAM to status 
+  void *old_screen_addr;      // pointer in RAM to old screen data (backing store), bit 15 set = disable
+} SMO;
+
+/**
+ * @brief the frame data for a given GRAPHICS object
+ */
+typedef struct _frame
+{
+  unsigned char x_extent;
+  unsigned char y_extent;
+  unsigned char generator;
+} Frame;
+
+/**
+ * @brief a GRAPHICS object
+ */
+typedef struct _graphics
+{
+  unsigned char obj_type;
+  unsigned char first_gen_name;
+  unsigned char numgen;
+  void *generators;
+  Frame *frame;
+} Graphics;
+
+/**
+ * @brief a STATUS object
+ */
+typedef struct _status
+{
+  unsigned char frame;
+  int x;
+  int y;
+  unsigned char next_gen;
+} Status;
+
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
 /**
@@ -143,6 +188,12 @@ void write_register(unsigned char rg, unsigned char v);
  * @param value Byte to write (0-0xFF) 
  */
 unsigned char fill_vram(unsigned short address, unsigned short count, unsigned char value);
+
+#define MODE1_SPRITE_GENERATOR_TABLE 0x3800
+#define MODE1_PATTERN_COLOR_TABLE 0x1800
+#define MODE1_SPRITE_ATTRIBUTE_TABLE 0x1B00
+#define MODE1_PATTERN_NAME_TABLE 0x1800
+#define MODE1_PATTERN_GENERATOR_TABLE 0x0000
 
 /**
  * MODE_1 - Set VDP to Graphics I
@@ -359,5 +410,20 @@ void blank(bool onoff);
  * @brief Clear the entire vram
  */
 void clear_vram(void);
+
+/** 
+ * ACTIVATE - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
+ *
+ * @param object pointer to object to activate.
+ * @oaram move if true, move generators to vram.
+ */
+void activate(void *object, bool move);
+
+/** 
+ * PUT_OBJ - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
+ *
+ * @param object pointer to object to put_obj.
+ */
+void put_obj(void *object);
 
 #endif /* OS7_H */
