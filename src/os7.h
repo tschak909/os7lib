@@ -125,7 +125,6 @@ typedef unsigned long TimerData;
  */
 #define MODE2_TOP 0x80
 
-
 /**
  * @brief A Semi-Mobile Object (SMO) top level definition
  */
@@ -182,6 +181,13 @@ typedef struct _mob_frame
   unsigned char lower_right;
   unsigned char color;
 } MOBFrame;
+
+typedef struct _mob_old_screen
+{
+  unsigned char x_pat_pos;
+  unsigned char y_pat_pos;
+  unsigned char saved_generators[9];
+} MOBOldScreen;
 
 /**
  * @brief a SMO GRAPHICS object defining n of frames
