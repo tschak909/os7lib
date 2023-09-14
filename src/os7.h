@@ -101,7 +101,33 @@ typedef unsigned char SignalNum;
 typedef unsigned long TimerData;
 
 /**
- * @brief A Semi-Mobile Object top level definition
+ * @brief obj_type for a SEMI_MOBILE graphics object
+ */
+#define SEMI_MOBILE 0
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to use a single color generator entry instead of 8.
+ */
+#define MODE2_SINGLE_COLOR 0x10
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in bottom third
+ */
+#define MODE2_BOTTOM 0x20
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in middle third
+ */
+#define MODE2_MIDDLE 0x40
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in top third
+ */
+#define MODE2_TOP 0x80
+
+
+/**
+ * @brief A Semi-Mobile Object (SMO) top level definition
  */
 typedef struct _smo
 {
@@ -111,37 +137,88 @@ typedef struct _smo
 } SMO;
 
 /**
- * @brief the frame data for a given GRAPHICS object
+ * @brief a Mobile Object (MOB) top level definition
  */
-typedef struct _frame
+typedef struct _mob
 {
-  unsigned char x_extent;
-  unsigned char y_extent;
-  unsigned char generator;
-} Frame;
+  void *graphics_addr;        // pointer in ROM to graphics object
+  void *status_addr;          // pointer in RAM to status 
+  void *old_screen_addr;      // pointer in RAM to old screen data (backing store), bit 15 set = disable
+  unsigned char first_gen;    // Index to first generator to use in PATTERN and COLOR tables
+} MOB;
 
 /**
- * @brief a GRAPHICS object
+ * @brief the frame data for a given SMO GRAPHICS object
  */
-typedef struct _graphics
+#define SMOFrame(n)				\
+  typedef struct _smo_frame_n			\
+  {						\
+    unsigned char x_extent;			\
+    unsigned char y_extent;			\
+    unsigned char generator[n];			\
+  }						\
+
+/**
+ * @brief the frame data for a given SMO GRAPHICS object
+ */
+#define SMOOldScreen(n)				\
+  typedef struct _smo_old_screen_n		\
+  {						\
+    unsigned char x_pat_pos;			\
+    unsigned char y_pat_pos;			\
+    unsigned char x_extent;			\
+    unsigned char y_extent;			\
+    unsigned char generator[n];			\
+  }						\
+
+/**
+ * @brief the frame data for a given MOB GRAPHICS object
+ */
+typedef struct _mob_frame
 {
-  unsigned char obj_type;
-  unsigned char first_gen_name;
-  unsigned char numgen;
-  void *generators;
-  Frame *frame;
-} Graphics;
+  unsigned char upper_left;
+  unsigned char lower_left;
+  unsigned char upper_right;
+  unsigned char lower_right;
+  unsigned char color;
+} MOBFrame;
+
+/**
+ * @brief a SMO GRAPHICS object defining n of frames
+ */
+#define SMOGraphics(n,FrameObj)			\
+  typedef struct _smo_graphics_n		\
+  {						\
+    unsigned char obj_type;			\
+    unsigned char first_gen_name;		\
+    unsigned char numgen;			\
+    void *generators;				\
+    FrameObj *frame[n];				\
+  }
+
+/**
+ * @brief a MOB GRAPHICS object defining n of frames
+ */
+#define MOBGraphics(n)				\
+  typedef struct _mob_graphics_n		\
+  {						\
+    unsigned char obj_type;			\
+    unsigned char numgen;			\
+    void *newgen;				\
+    void *generators;				\
+    MOBFrame *frame[n];				\
+  }						
 
 /**
  * @brief a STATUS object
  */
-typedef struct _status
+typedef struct _smo_status
 {
   unsigned char frame;
   int x;
   int y;
   unsigned char next_gen;
-} Status;
+} SMOStatus;
 
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
