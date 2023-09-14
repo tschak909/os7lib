@@ -106,6 +106,21 @@ typedef unsigned long TimerData;
 #define SEMI_MOBILE 0
 
 /**
+ * @brief obj_type for a Mobile object
+ */
+#define MOBILE 1
+
+/**
+ * @brief obj_type for a Sprite object
+ */
+#define SPRITE 3
+
+/**
+ * @brief obj_type for a Complex object
+ */
+#define COM_OB 4
+
+/**
  * @brief obj type | modifier for SEMI mobile objects in mode 2 to use a single color generator entry instead of 8.
  */
 #define MODE2_SINGLE_COLOR 0x10
@@ -216,7 +231,7 @@ typedef struct _mob_old_screen
   }						
 
 /**
- * @brief a STATUS object
+ * @brief a SEMI-MOBILE STATUS object
  */
 typedef struct _smo_status
 {
@@ -225,6 +240,17 @@ typedef struct _smo_status
   int y;
   unsigned char next_gen;
 } SMOStatus;
+
+/**
+ * @brief a MOBILE status object
+ */
+typedef struct _mob_status
+{
+  unsigned char frame;
+  int x;
+  int y;
+  void *newgen;
+} MOBStatus;
 
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
