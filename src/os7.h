@@ -81,6 +81,16 @@ typedef enum _vdp_table
 #define REGISTER_BACKGROUND 7
 
 /**
+ * @brief The size of each WRITER queue entry
+ */
+#define WRITER_QUEUE_ENTRY_SIZE 3
+
+/**
+ * @brief Required Size of newgen table in RAM in bytes
+ */
+#define NEWGEN_SIZE 72
+
+/**
  * @brief Timer Table entry
  */
 typedef struct _timer_table
