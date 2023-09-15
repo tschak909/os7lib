@@ -16,7 +16,7 @@ LDFLAGS=-xos7
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+$(TARGET_EXEC).lib: $(OBJS)
 	$(AS) $(LDFLAGS) $(OBJS)
 
 # c source
@@ -26,7 +26,7 @@ $(BUILD_DIR)/%.c.o: %.c
 
 .PHONY: install clean
 
-install: src/os7.h eos.lib
+install: src/os7.h os7.lib
 	install src/os7.h /usr/local/share/z88dk/include/
 	install os7.lib /usr/local/share/z88dk/lib/
 
