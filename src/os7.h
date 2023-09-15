@@ -3,6 +3,9 @@
 
 #include <stdbool.h>
 
+/**
+ * @brief Addresses of ROM routines for AsmCall
+ */
 #define READ_VRAM 0x1FE2
 #define WRITE_VRAM 0x1FDF
 #define READ_REGISTER 0x1FDC
@@ -37,15 +40,229 @@
 #define DECMSN 0x019B
 #define MSNTOLSN 0x01A6
 #define RAND_GEN 0x1FFD
+#define ACTIVATE 0x1FF7
+#define PUT_OBJ 0x1FFA
 
+/**
+ * @brief VDPTable values for get/put_vram
+ */
 typedef enum _vdp_table
   {
-    SPRITE_ATTRIBUTE_TABLE,
+    SPRITE_ATTRIBUTE_TABLE=0,
     SPRITE_GENERATOR_TABLE,
     PATTERN_NAME_TABLE,
     PATTERN_GENERATOR_TABLE,
     PATTERN_COLOR_TABLE
   } VDPTable;
+
+/**
+ * @brief VDP colors
+ */
+#define TRANSPARENT 0
+#define BLACK 1
+#define MEDIUM_GREEN 2
+#define LIGHT_GREEN 3
+#define DARK_BLUE 4
+#define LIGHT_BLUE 5
+#define DARK_RED 6
+#define CYAN 7
+#define MEDIUM_RED 8
+#define LIGHT_RED 9
+#define DARK_YELLOW 10
+#define LIGHT_YELLOW 11
+#define DARK_GREEN 12
+#define MAGENTA 13
+#define GRAY 14
+#define WHITE 15
+
+/**
+ * @brief VDP Register #s to Names
+ */
+#define REGISTER_BACKGROUND 7
+
+/**
+ * @brief The size of each WRITER queue entry
+ */
+#define WRITER_QUEUE_ENTRY_SIZE 3
+
+/**
+ * @brief Required Size of newgen table in RAM in bytes
+ */
+#define NEWGEN_SIZE 72
+
+/**
+ * @brief Timer Table entry
+ */
+typedef struct _timer_table
+{
+  unsigned char mode;
+  unsigned short value;
+} TimerTable;
+
+/**
+ * @brief A timer signal # returned by REQUEST_SIGNAL
+ */
+typedef unsigned char SignalNum;
+
+/**
+ * @brief A timer data block entry, for long running timers
+ * @verbose we don't ever touch it directly, we just need to reserve 4 bytes for each long running timer we want.
+ */
+typedef unsigned long TimerData;
+
+/**
+ * @brief obj_type for a SEMI_MOBILE graphics object
+ */
+#define SEMI_MOBILE 0
+
+/**
+ * @brief obj_type for a Mobile object
+ */
+#define MOBILE 1
+
+/**
+ * @brief obj_type for a Sprite object
+ */
+#define SPRITE 3
+
+/**
+ * @brief obj_type for a Complex object
+ */
+#define COM_OB 4
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to use a single color generator entry instead of 8.
+ */
+#define MODE2_SINGLE_COLOR 0x10
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in bottom third
+ */
+#define MODE2_BOTTOM 0x20
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in middle third
+ */
+#define MODE2_MIDDLE 0x40
+
+/**
+ * @brief obj type | modifier for SEMI mobile objects in mode 2 to specify that this object should be in top third
+ */
+#define MODE2_TOP 0x80
+
+/**
+ * @brief A Semi-Mobile Object (SMO) top level definition
+ */
+typedef struct _smo
+{
+  void *graphics_addr;        // pointer in ROM to graphics object
+  void *status_addr;          // pointer in RAM to status 
+  void *old_screen_addr;      // pointer in RAM to old screen data (backing store), bit 15 set = disable
+} SMO;
+
+/**
+ * @brief a Mobile Object (MOB) top level definition
+ */
+typedef struct _mob
+{
+  void *graphics_addr;        // pointer in ROM to graphics object
+  void *status_addr;          // pointer in RAM to status 
+  void *old_screen_addr;      // pointer in RAM to old screen data (backing store), bit 15 set = disable
+  unsigned char first_gen;    // Index to first generator to use in PATTERN and COLOR tables
+} MOB;
+
+/**
+ * @brief the frame data for a given SMO GRAPHICS object
+ */
+#define SMOFrame(n)				\
+  typedef struct _smo_frame_n			\
+  {						\
+    unsigned char x_extent;			\
+    unsigned char y_extent;			\
+    unsigned char generator[n];			\
+  }						\
+
+/**
+ * @brief the frame data for a given SMO GRAPHICS object
+ */
+#define SMOOldScreen(n)				\
+  typedef struct _smo_old_screen_n		\
+  {						\
+    unsigned char x_pat_pos;			\
+    unsigned char y_pat_pos;			\
+    unsigned char x_extent;			\
+    unsigned char y_extent;			\
+    unsigned char generator[n];			\
+  }						\
+
+/**
+ * @brief the frame data for a given MOB GRAPHICS object
+ */
+typedef struct _mob_frame
+{
+  unsigned char upper_left;
+  unsigned char lower_left;
+  unsigned char upper_right;
+  unsigned char lower_right;
+  unsigned char color;
+} MOBFrame;
+
+typedef struct _mob_old_screen
+{
+  unsigned char x_pat_pos;
+  unsigned char y_pat_pos;
+  unsigned char saved_generators[9];
+} MOBOldScreen;
+
+/**
+ * @brief a SMO GRAPHICS object defining n of frames
+ */
+#define SMOGraphics(n,FrameObj)			\
+  typedef struct _smo_graphics_n		\
+  {						\
+    unsigned char obj_type;			\
+    unsigned char first_gen_name;		\
+    unsigned char numgen;			\
+    void *generators;				\
+    FrameObj *frame[n];				\
+  }
+
+/**
+ * @brief a MOB GRAPHICS object defining n of frames
+ */
+#define MOBGraphics(n)				\
+  typedef struct _mob_graphics_n		\
+  {						\
+    unsigned char obj_type;			\
+    unsigned char numgen;			\
+    void *newgen;				\
+    void *generators;				\
+    MOBFrame *frame[n];				\
+  }						
+
+/**
+ * @brief a SEMI-MOBILE STATUS object
+ */
+typedef struct _smo_status
+{
+  unsigned char frame;
+  int x;
+  int y;
+  unsigned char next_gen;
+} SMOStatus;
+
+/**
+ * @brief a MOBILE status object
+ */
+typedef struct _mob_status
+{
+  unsigned char frame;
+  int x;
+  int y;
+  void *newgen;
+} MOBStatus;
+
+// FUNCTIONS ////////////////////////////////////////////////////////////
 
 /**
  * READ_VRAM - Read # of bytes from VRAM to BUFFER in CRAM
@@ -58,7 +275,7 @@ void read_vram(void *buffer, unsigned short src, unsigned short count);
 
 /**
  * WRITE_VRAM - Write # of bytes to VRAM from BUFFER in CRAM
- *
+ *w
  * @param buffer Source Address
  * @param dest Dest address in VRAM
  * @param count # of bytes
@@ -91,6 +308,12 @@ void write_register(unsigned char rg, unsigned char v);
  */
 unsigned char fill_vram(unsigned short address, unsigned short count, unsigned char value);
 
+#define MODE1_SPRITE_GENERATOR_TABLE 0x3800
+#define MODE1_PATTERN_COLOR_TABLE 0x1800
+#define MODE1_SPRITE_ATTRIBUTE_TABLE 0x1B00
+#define MODE1_PATTERN_NAME_TABLE 0x1800
+#define MODE1_PATTERN_GENERATOR_TABLE 0x0000
+
 /**
  * MODE_1 - Set VDP to Graphics I
  * 
@@ -100,7 +323,7 @@ unsigned char fill_vram(unsigned short address, unsigned short count, unsigned c
  * Pattern Color Table     - 0x2000
  * Sprite Attribute Table  - 0x1B00
  * Pattern Name Table      - 0x1800
- * Pattern Generator Table - 0x0000
+o * Pattern Generator Table - 0x0000
  */
 
 void mode_1(void);
@@ -123,6 +346,16 @@ unsigned char fill_vram(unsigned short address, unsigned short count, unsigned c
  * @param count - The number of items
  */
 void get_vram(VDPTable table, unsigned short start_index, void *data, unsigned short count);
+
+/** 
+ * PUT_VRAM - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
+ *
+ * @param table_code - Table code (see VDPTable enum type)
+ * @param start_index - The starting entry in the given table
+ * @param data - The tarput buffer in CRAM
+ * @param count - The number of items
+ */
+void put_vram(VDPTable table, unsigned short start_index, void *data, unsigned short count);
 
 /**
  * REFLECT_VERTICAL - Flip a pattern vertically
@@ -206,20 +439,20 @@ void time_mgr(void);
  * @param repeat true = reset and decrement when 0
  * @return signal number.
  */
-unsigned char request_signal(unsigned short len, bool repeat);
+SignalNum request_signal(unsigned short len, bool repeat);
 
 /**
  * @brief TEST_SIGNAL - Check if timer specified by signal_num has passed.
  * @param signal_num  - The signal # to test (0-255)
  * @return true if timer has passed, false if not.
  */
-bool test_signal(unsigned char signal_num);
+bool test_signal(SignalNum signal_num);
 
 /**
  * @brief FREE_SIGNAL - Stop timer and remove it from tables
  * @param signal_num  - The signal # to test (0-255)
  */
-void free_signal(unsigned char signal_num);
+void free_signal(SignalNum signal_num);
 
 /**
  * @brief DECODER - Scan and return decoded controller output
@@ -283,5 +516,33 @@ void msntolsn(unsigned short *addr);
  * RAND_GEN - Generate new 16-bit pseudo-random number, stuff at RAND_NUM
  */
 void rand_gen(void);
+
+// Functions I've added, because why not?
+
+/**
+ * @brief turn on or off screen rendering
+ * @param onoff - true = turn screen on, false = turn screen off (leaving backdrop color)
+ */
+void blank(bool onoff);
+
+/**
+ * @brief Clear the entire vram
+ */
+void clear_vram(void);
+
+/** 
+ * ACTIVATE - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
+ *
+ * @param object pointer to object to activate.
+ * @oaram move if true, move generators to vram.
+ */
+void activate(void *object, bool move);
+
+/** 
+ * PUT_OBJ - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
+ *
+ * @param object pointer to object to put_obj.
+ */
+void put_obj(void *object);
 
 #endif /* OS7_H */
