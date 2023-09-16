@@ -6,11 +6,12 @@
  *
  * @param object pointer to object to put_obj.
  */
-void put_obj(void *object)
+void put_obj(void *object, unsigned char bkg_mode)
 {
   Z80_registers r;
   
   r.UWords.IX = object;
-
+  r.Bytes.B = bkg_mode;
+  
   AsmCall(PUT_OBJ,&r,REGS_ALL,REGS_ALL);
 }

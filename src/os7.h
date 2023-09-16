@@ -542,7 +542,8 @@ void activate(void *object, bool move);
  * PUT_OBJ - writes to VDP ram starting at TABLE_CODE, start index count, and count number of bytes 
  *
  * @param object pointer to object to put_obj.
+ * @param background mode to use when combining in mobile object mode.
  */
-void put_obj(void *object);
+void put_obj(void *object, unsigned char bkg_mode);
 
 #endif /* OS7_H */
