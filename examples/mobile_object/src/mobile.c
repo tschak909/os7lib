@@ -30,9 +30,9 @@ unsigned char writer_queue[WRITER_QUEUE_SIZE*WRITER_QUEUE_ENTRY_SIZE];
 /**
  * @brief PATTERN TABLE generators which will hold each frame, and color
  */
-const MOBFrame pacmanFrame0 = {0x60,0x61,0x62,0x63,0x20};
-const MOBFrame pacmanFrame1 = {0x64,0x65,0x66,0x67,0x20};
-const MOBFrame pacmanFrame2 = {0x68,0x69,0x6A,0x6B,0x20};
+const MOBFrame pacmanFrame0 = {0x00,0x01,0x02,0x03,0xB0};
+const MOBFrame pacmanFrame1 = {0x04,0x05,0x06,0x07,0xB0};
+const MOBFrame pacmanFrame2 = {0x00,0x01,0x02,0x03,0xB0};
 
 /**
  * @brief newGen is 9 generator spaces, each holding 8 bytes for temporary transformation storage.
@@ -58,7 +58,7 @@ MOBStatus pacmanStatus;
 /**
  * @brief PAC-Man's Top-level object
  */
-const MOB pacmanMOB = {pacmanGraphics,pacmanStatus,pacmanOldScreen,0x60};
+const MOB pacmanMOB = {pacmanGraphics,pacmanStatus,pacmanOldScreen,0x00};
 
 /**
  * @brief the routine to use during VDP interrupt, update writer and timer manager
@@ -82,7 +82,7 @@ void init(void)
 
   mode_1();                                     // set up VDP mode 1, at this point, display is OFF (blank)
   load_ascii();                                 // put ASCII table in PATTERN GENERATORS
-  fill_vram(MODE1_PATTERN_NAME_TABLE,768,' ');  // spaces in name table
+  fill_vram(MODE1_PATTERN_NAME_TABLE,768,'A');  // spaces in name table
   fill_vram(MODE1_PATTERN_COLOR_TABLE,32,0xF4); // Fill color table with white foreground/black background
   write_register(0x01,0xE0);                    // turn on display, mode 1, VDP interrupt.
 }
@@ -104,10 +104,15 @@ void main(void)
 {
   init();
   signon_msg();
-
-  activate(pacmanMOB,false);
-  pacmanStatus.x = 0;
-  pacmanStatus.y = 0;
-  put_obj(pacmanMOB);
-  while(1);
+  pacmanStatus.x = 64;
+  pacmanStatus.y = 64;
+  while(1)
+    {
+      pacmanStatus.frame++;
+      pacmanStatus.x++;
+      if (pacmanStatus.frame>2)
+	pacmanStatus.frame=0;
+      
+      put_obj(pacmanMOB,1);
+    }
 }
