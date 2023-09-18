@@ -14,11 +14,11 @@ const unsigned char pacman_right_horizontal[]=
     0b00011111,
     0b00111111,
     0b00111111,
-    0b01111111,
-    0b01111111,
+    0b01111110,
+    0b01111100,
     0b01111000,
-
-    // lower left
+    
+    // lower right
     0b01111100,
     0b01111110,
     0b00111111,
@@ -38,7 +38,7 @@ const unsigned char pacman_right_horizontal[]=
     0b00000000,
     0b00000000,
 
-    // upper right
+    // lower right
     0b00000000,
     0b00000000,
     0b00000000,
