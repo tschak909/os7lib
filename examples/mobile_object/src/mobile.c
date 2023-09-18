@@ -106,8 +106,11 @@ void main(void)
   init();
   signon_msg();
   pacmanStatus.y=128;
+  activate(pacmanMOB,false);
+  
   while(1)
     {
+      SignalNum wait = request_signal(1,false);
       pacmanStatus.x++;
       pacmanStatus.frame++;
       if (pacmanStatus.x>256)
@@ -116,5 +119,6 @@ void main(void)
 	pacmanStatus.frame=0;
 
       put_obj(pacmanMOB,0);
+      while (!test_signal(wait));
     }
 }
