@@ -204,7 +204,7 @@ typedef struct _mob_frame
   unsigned char lower_left;
   unsigned char upper_right;
   unsigned char lower_right;
-  unsigned char color;
+  unsigned char color0;
 } MOBFrame;
 
 typedef struct _mob_old_screen
@@ -515,7 +515,7 @@ void msntolsn(unsigned short *addr);
 /** 
  * RAND_GEN - Generate new 16-bit pseudo-random number, stuff at RAND_NUM
  */
-void rand_gen(void);
+unsigned short rand_gen(void);
 
 // Functions I've added, because why not?
 
