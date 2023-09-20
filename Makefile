@@ -24,14 +24,18 @@ $(BUILD_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-.PHONY: install clean
+.PHONY: install check clean
 
 install: src/os7.h os7.lib
 	install src/os7.h /usr/local/share/z88dk/include/
 	install os7.lib /usr/local/share/z88dk/lib/
 
+check:
+	$(MAKE) -C examples/mobile_object
+
 clean:
 	$(RM) -r os7.lib $(BUILD_DIR)
+	$(MAKE) -C examples/mobile_object $@
 
 -include $(DEPS)
 
