@@ -1,5 +1,5 @@
 /**
- * @brief Mobile Object demo (VDP Mode 1)
+ * @brief Sprite Object demo (VDP Mode 1)
  * @author Thomas Cherryhomes
  * @email thom dot cherryhomes at gmail dot com
  * @license gpl v. 3, see COPYING for details
@@ -81,17 +81,17 @@ SprStatus status;
 /**
  * @brief frame to generator and color mapping for sprite
  */
-SprFrame frame={LIGHT_GREEN,0x00};
+const SprFrame frame={LIGHT_GREEN,0x00};
 
 /**
  * @brief graphics object mapping generator in rom to pattern table in VRAM
  */
-SprGraphics graphics = {SPRITE,0x00,generator,1,frame};
+const SprGraphics graphics = {SPRITE,0x00,generator,1,frame};
 
 /**
   * @brief top level object for sprite
   */
-SprObj obj = {graphics,status,0};
+const SprObj obj = {graphics,status,0};
 
 /**
  * @brief the routine to use during VDP interrupt, update writer and timer manager
