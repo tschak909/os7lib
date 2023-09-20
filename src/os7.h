@@ -262,6 +262,48 @@ typedef struct _mob_status
   void *newgen;
 } MOBStatus;
 
+/**
+ * @brief a SPROBJ (sprite object)
+ */
+typedef struct _sprobj
+{
+  void *graphics;
+  void *status;
+  unsigned char index;
+} SprObj;
+
+/**
+ * @brief A Sprite Graphics Object
+ */
+typedef struct _spr_graphics
+{
+  unsigned char obj_type;
+  unsigned char first_gen_name;
+  void *generators;
+  unsigned char numgen;
+  void *frame_table;
+} SprGraphics;
+
+/**
+ * @brief a sprite frame (usually in an array)
+ */
+typedef struct _spr_frame
+{
+  unsigned char color;
+  unsigned char shape;
+} SprFrame;
+
+/**
+ * @brief a sprite's status object
+ */
+typedef struct _spr_status
+{
+  unsigned char frame;
+  int x;
+  int y;
+  unsigned char next_gen;
+} SprStatus;
+
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
 /**
