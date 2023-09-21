@@ -351,7 +351,7 @@ void write_register(unsigned char rg, unsigned char v);
 unsigned char fill_vram(unsigned short address, unsigned short count, unsigned char value);
 
 #define MODE1_SPRITE_GENERATOR_TABLE 0x3800
-#define MODE1_PATTERN_COLOR_TABLE 0x1800
+#define MODE1_PATTERN_COLOR_TABLE 0x2000
 #define MODE1_SPRITE_ATTRIBUTE_TABLE 0x1B00
 #define MODE1_PATTERN_NAME_TABLE 0x1800
 #define MODE1_PATTERN_GENERATOR_TABLE 0x0000
