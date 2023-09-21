@@ -371,6 +371,21 @@ o * Pattern Generator Table - 0x0000
 void mode_1(void);
 
 /**
+ * MODE_1 - Set VDP to Graphics II
+ * 
+ * VDP tables are set to:
+ * 
+ * Sprite Generator Table  - 0x3800
+ * Pattern Color Table     - 0x2000
+ * Sprite Attribute Table  - 0x1B00
+ * Pattern Name Table      - 0x1800
+o * Pattern Generator Table - 0x0000
+ */
+
+void mode_2(void);
+
+
+/**
  * FILL_VRAM - Fill VRAM starting at address with count bytes of value
  *
  * @param address starting VRAM address (0x0000-0x3FFF)
