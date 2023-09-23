@@ -9,7 +9,7 @@
  * @param data - The tarput buffer in CRAM
  * @param count - The number of items
  */
-void put_vram(VDPTable table, unsigned short start_index, void *data, unsigned short count)
+void get_vram(VDPTable table, unsigned short start_index, void *data, unsigned short count)
 {
   Z80_registers r;
 
@@ -18,5 +18,5 @@ void put_vram(VDPTable table, unsigned short start_index, void *data, unsigned s
   r.UWords.HL = data;
   r.UWords.IY  = count;
 
-  AsmCall(PUT_VRAM,&r,REGS_ALL,REGS_ALL);
+  AsmCall(GET_VRAM,&r,REGS_ALL,REGS_ALL);
 }
