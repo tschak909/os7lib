@@ -9,6 +9,7 @@
 #include <arch/z80.h>
 #include <intrinsic.h>
 #include <os7.h>
+#include <math/math_fix16.h>
 
 #define OFF_THE_LEFT -32
 
@@ -115,6 +116,8 @@ void signon_msg(void)
 
 void main(void)
 {
+  Accum v=0.01;
+  
   init_timer(&tt,&td);                          // Set up timer queue
   add_raster_int(vdp_nmi);                      // attach vdp_nmi() to be called on every VDP interrupt.
   mode_1();                                     // set up VDP mode 1, at this point, display is OFF (blank)
@@ -126,14 +129,19 @@ void main(void)
   
   activate(obj,false);
 
-  status.x = OFF_THE_LEFT;
+  status.x = 0;
   
   while(1)
     {
       SignalNum wait_frame = request_signal(1,false); // timer that waits for one frame.
       
-      status.x+=2;
+      v += FIX16_FROM_FLOAT(0.002);
 
+      if (v>126)
+	v=126;
+      
+      status.x += FIX16_TO_INT(v);
+      
       if (status.x>288)
 	status.x=OFF_THE_LEFT;
       
