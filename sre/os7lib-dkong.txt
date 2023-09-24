@@ -4,10 +4,10 @@
                             ;undefined RST0()
                                                           ;XREF[1,0]:   Entry Point
 OS7:ram:0000    31b973          LD          SP,0x73b9                               
-OS7:ram:0003    c3              ??          C3h                                     
-OS7:ram:0004    6e              ??          6Eh    n                                
-                            DAT_ram_0005:                 ;XREF[1,0]:   ram:03ee
-OS7:ram:0005    00              undefined1  00h                                     
+OS7:ram:0003    c3              db          C3h                                     
+OS7:ram:0004    6e              db          6Eh                                     
+                            BYTE_ram_0005:                ;XREF[1,0]:   ram:03ee
+OS7:ram:0005    00              db          0h                                      
                             DAT_ram_0006:                 ;XREF[1,0]:   ram:0441
 OS7:ram:0006    ff              undefined1  FFh                                     
                             DAT_ram_0007:                 ;XREF[1,0]:   ram:0411
@@ -135,7 +135,7 @@ OS7:ram:006c    2316            addr        NUMBER_TBL                          
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
                             ;void BOOT_UP(void)
-OS7:ram:006e    2a0080          LD          HL,(ROM:BYTE_ram_8000)                  ;= AAh
+OS7:ram:006e    2a0080          LD          HL,(ROM:CART_ID_1)                      ;= AAh
 OS7:ram:0071    7d              LD          A,L                                     
 OS7:ram:0072    fe55            CP          0x55                                    
 OS7:ram:0074    c28100          JP          NZ,NO_TEST_                             
@@ -445,7 +445,7 @@ OS7:ram:01c0    c9              RET
           ;songno        uchar                B                      
           ;song_data     void *              IX                      
                                                           ;XREF[3,0]:   ram:025f,ram:0281,ram:02a8
-OS7:ram:01c1    2a2070          LD          HL,(RAM:PTR_TO_LST_OF_SND_ADDRS)        ;= ??
+OS7:ram:01c1    2a2070          LD          HL,(RAM:PTR_TO_LST_OF_SND_ADDRS)        ;= NaP
 OS7:ram:01c4    2b              DEC         HL                                      
 OS7:ram:01c5    2b              DEC         HL                                      
 OS7:ram:01c6    48              LD          C,songno                                
@@ -519,7 +519,7 @@ OS7:ram:0210    2abb73          LD          HL,(RAM:PARAM_AREA+1)
           ;sound_data... uchar                B                      
           ;list_of_so... void *              HL                      
                                                           ;XREF[1,0]:   ram:1fee
-OS7:ram:0213    222070          LD          (RAM:PTR_TO_LST_...,list_of_sound_addrs ;= ??
+OS7:ram:0213    222070          LD          (RAM:PTR_TO_LST_...,list_of_sound_addrs ;= NaP
 OS7:ram:0216    23              INC         list_of_sound_addrs                     
 OS7:ram:0217    23              INC         list_of_sound_addrs                     
 OS7:ram:0218    5e              LD          E,(list_of_sound_addrs)                 
@@ -534,10 +534,10 @@ OS7:ram:0222    19              ADD         list_of_sound_addrs,DE
 OS7:ram:0223    10fb            DJNZ        B1                                      
 OS7:ram:0225    3600            LD          (list_of_sound_addrs),0x0               
 OS7:ram:0227    214c02          LD          list_of_sound_addrs,0x24c               
-OS7:ram:022a    222270          LD          (RAM:PTR_TO_S_ON_0),list_of_sound_addrs ;= ??
-OS7:ram:022d    222470          LD          (RAM:PTR_TO_S_ON_1),list_of_sound_addrs ;= ??
-OS7:ram:0230    222670          LD          (RAM:PTR_TO_S_ON_2),list_of_sound_addrs ;= ??
-OS7:ram:0233    222870          LD          (RAM:PTR_TO_S_ON_3),list_of_sound_addrs ;= ??
+OS7:ram:022a    222270          LD          (RAM:PTR_TO_S_ON_0),list_of_sound_addrs ;= NaP
+OS7:ram:022d    222470          LD          (RAM:PTR_TO_S_ON_1),list_of_sound_addrs ;= NaP
+OS7:ram:0230    222670          LD          (RAM:PTR_TO_S_ON_2),list_of_sound_addrs ;= NaP
+OS7:ram:0233    222870          LD          (RAM:PTR_TO_S_ON_3),list_of_sound_addrs ;= NaP
 OS7:ram:0236    3eff            LD          A,0xff                                  
 OS7:ram:0238    322a70          LD          (RAM:SAVE_CTRL),A                       ;= ??
                             ;************************************************************************************************
@@ -616,10 +616,10 @@ OS7:ram:0293    18ef            JR          LAB_ram_0284
                                                           ;XREF[2,0]:   ram:027b,ram:02fc
 OS7:ram:0295    dde5            PUSH        IX                                      
 OS7:ram:0297    214c02          LD          HL,0x24c                                
-OS7:ram:029a    222270          LD          (RAM:PTR_TO_S_ON_0),HL                  ;= ??
-OS7:ram:029d    222470          LD          (RAM:PTR_TO_S_ON_1),HL                  ;= ??
-OS7:ram:02a0    222670          LD          (RAM:PTR_TO_S_ON_2),HL                  ;= ??
-OS7:ram:02a3    222870          LD          (RAM:PTR_TO_S_ON_3),HL                  ;= ??
+OS7:ram:029a    222270          LD          (RAM:PTR_TO_S_ON_0),HL                  ;= NaP
+OS7:ram:029d    222470          LD          (RAM:PTR_TO_S_ON_1),HL                  ;= NaP
+OS7:ram:02a0    222670          LD          (RAM:PTR_TO_S_ON_2),HL                  ;= NaP
+OS7:ram:02a3    222870          LD          (RAM:PTR_TO_S_ON_3),HL                  ;= NaP
 OS7:ram:02a6    0601            LD          B,0x1                                   
 OS7:ram:02a8    cdc101          CALL        PT_IX_TO_SxDATA                         ;void * PT_IX_TO_SxDATA(uchar songno,...
                             L2:                           ;XREF[1,0]:   ram:02d1
@@ -639,7 +639,7 @@ OS7:ram:02c1    212270          LD          HL,0x7022
 OS7:ram:02c4    19              ADD         HL,DE                                   
 OS7:ram:02c5    dde5            PUSH        IX                                      
 OS7:ram:02c7    d1              POP         DE                                      
-OS7:ram:02c8    73              LD          (HL),E=>RAM:PTR_TO_S_ON_0               ;= ??
+OS7:ram:02c8    73              LD          (HL),E=>RAM:PTR_TO_S_ON_0               ;= NaP
 OS7:ram:02c9    23              INC         HL                                      
 OS7:ram:02ca    72              LD          (HL),D=>RAM:PTR_TO_S_ON_0+1             
                             L9:                           ;XREF[1,0]:   ram:02b4
@@ -686,21 +686,21 @@ OS7:ram:02ff    c9              RET
 OS7:ram:0300    3e9f            LD          A,0x9f                                  
 OS7:ram:0302    0e90            LD          C,0x90                                  
 OS7:ram:0304    1680            LD          D,0x80                                  
-OS7:ram:0306    dd2a2470        LD          IX,(RAM:PTR_TO_S_ON_1)                  ;= ??
+OS7:ram:0306    dd2a2470        LD          IX,(RAM:PTR_TO_S_ON_1)                  ;= NaP
 OS7:ram:030a    cd4e03          CALL        TONE_OUT                                ;void TONE_OUT(void)
 OS7:ram:030d    3ebf            LD          A,0xbf                                  
 OS7:ram:030f    0eb0            LD          C,0xb0                                  
 OS7:ram:0311    16a0            LD          D,0xa0                                  
-OS7:ram:0313    dd2a2670        LD          IX,(RAM:PTR_TO_S_ON_2)                  ;= ??
+OS7:ram:0313    dd2a2670        LD          IX,(RAM:PTR_TO_S_ON_2)                  ;= NaP
 OS7:ram:0317    cd4e03          CALL        TONE_OUT                                ;void TONE_OUT(void)
 OS7:ram:031a    3edf            LD          A,0xdf                                  
 OS7:ram:031c    0ed0            LD          C,0xd0                                  
 OS7:ram:031e    16c0            LD          D,0xc0                                  
-OS7:ram:0320    dd2a2870        LD          IX,(RAM:PTR_TO_S_ON_3)                  ;= ??
+OS7:ram:0320    dd2a2870        LD          IX,(RAM:PTR_TO_S_ON_3)                  ;= NaP
 OS7:ram:0324    cd4e03          CALL        TONE_OUT                                ;void TONE_OUT(void)
 OS7:ram:0327    3eff            LD          A,0xff                                  
 OS7:ram:0329    0ef0            LD          C,0xf0                                  
-OS7:ram:032b    dd2a2270        LD          IX,(RAM:PTR_TO_S_ON_0)                  ;= ??
+OS7:ram:032b    dd2a2270        LD          IX,(RAM:PTR_TO_S_ON_0)                  ;= NaP
 OS7:ram:032f    dd5e00          LD          E,(IX+0x0)                              
 OS7:ram:0332    1c              INC         E                                       
 OS7:ram:0333    2004            JR          NZ,L5                                   
@@ -2118,6 +2118,7 @@ OS7:ram:0b67    110800          LD          DE,0x8
 OS7:ram:0b6a    19              ADD         HL=>RAM:DAT_ram_701c,DE                 ;= ??
                                                           ; FWD[2,0]:   ram:701c,ram:7024
 OS7:ram:0b6b    e5              PUSH        HL=>RAM:DAT_ram_701c                    ;= ??
+                                                                                    ;= NaP
 OS7:ram:0b6c    5f              LD          E,A                                     
 OS7:ram:0b6d    1600            LD          D,0x0                                   
 OS7:ram:0b6f    4f              LD          C,A                                     
@@ -3574,11 +3575,11 @@ OS7:ram:13a4    0601            LD          B,0x1
 OS7:ram:13a6    0ec0            LD          C,0xc0                                  
 OS7:ram:13a8    cdd91f          CALL        WRITE_REGISTER                          ;void WRITE_REGISTER(uchar register, ...
 OS7:ram:13ab    210080          LD          HL,0x8000                               
-OS7:ram:13ae    7e              LD          A,(HL=>ROM:BYTE_ram_8000)               ;= AAh
+OS7:ram:13ae    7e              LD          A,(HL=>ROM:CART_ID_1)                   ;= AAh
 OS7:ram:13af    feaa            CP          0xaa                                    
 OS7:ram:13b1    204c            JR          NZ,NO_CARTRIDGE                         
 OS7:ram:13b3    23              INC         HL                                      
-OS7:ram:13b4    7e              LD          A,(HL=>ROM:DAT_ram_8001)                ;= 55h
+OS7:ram:13b4    7e              LD          A,(HL=>ROM:CART_ID_2)                   ;= 55h
 OS7:ram:13b5    fe55            CP          0x55                                    
 OS7:ram:13b7    2046            JR          NZ,NO_CARTRIDGE                         
 OS7:ram:13b9    212480          LD          HL,0x8024                               
@@ -5450,10 +5451,10 @@ OS7:ram:1c63    3aba73          LD          A,(RAM:PARAM_AREA)                  
                                                           ;XREF[1,0]:   ram:1fc1
 OS7:ram:1c66    47              LD          B,sprite_count                          
 OS7:ram:1c67    af              XOR         sprite_count                            
-OS7:ram:1c68    2a0480          LD          HL,(ROM:PTR_DAT_ram_7221_ram_8004)      ;= ram:7221
+OS7:ram:1c68    2a0480          LD          HL,(->SPRITE_ORDER_TABLE_)              ;= ram:7221
                             LAB_ram_1c6b:                 ;XREF[1,0]:   ram:1c6f
                                                           ; FWD[2,0]:   ram:7221,ram:7222
-OS7:ram:1c6b    77              LD          (HL=>RAM:DAT_ram_7221),sprite_count     ;= ??
+OS7:ram:1c6b    77              LD          (HL=>RAM:SPRITE_...),sprite_count       ;= ??
 OS7:ram:1c6c    23              INC         HL                                      
 OS7:ram:1c6d    3c              INC         sprite_count                            
 OS7:ram:1c6e    b8              CP          B                                       
@@ -5477,7 +5478,7 @@ OS7:ram:1c7f    3aba73          LD          A,(RAM:PARAM_AREA)                  
                             ;void WR_SPR_NM_TBL_(byte count)
           ;count         byte                 A                      
                                                           ;XREF[1,0]:   ram:1fc4
-OS7:ram:1c82    dd2a0480        LD          IX,(ROM:PTR_DAT_ram_7221_ram_8004)      ;= ram:7221
+OS7:ram:1c82    dd2a0480        LD          IX,(->SPRITE_ORDER_TABLE_)              ;= ram:7221
 OS7:ram:1c86    f5              PUSH        count                                   
 OS7:ram:1c87    fd21f273        LD          IY,0x73f2                               
 OS7:ram:1c8b    fd5e00          LD          E,(IY+0x0)=>RAM:SPRITENAMETBL           ;= ??
@@ -5491,7 +5492,7 @@ OS7:ram:1c99    f1              POP         count
                             OUTPUT_LOOP_TABLE_MA:         ;XREF[1,0]:   ram:1cb3
 OS7:ram:1c9a    2a0280          LD          HL,(ROM:PTR_DAT_ram_7231_ram_8002)      ;= ram:7231
                                                           ; FWD[2,0]:   ram:7221,ram:7222
-OS7:ram:1c9d    dd4e00          LD          C,(IX+0x0)=>RAM:DAT_ram_7221            ;= ??
+OS7:ram:1c9d    dd4e00          LD          C,(IX+0x0)=>RAM:SPRITE_ORDER_TABLE_     ;= ??
 OS7:ram:1ca0    dd23            INC         IX                                      
 OS7:ram:1ca2    0600            LD          B,0x0                                   
 OS7:ram:1ca4    09              ADD         HL,BC                                   
@@ -6504,16 +6505,16 @@ RAM:ram:701d                    ??          ??
 RAM:ram:701e                    ??          ??                                      
 RAM:ram:701f                    ??          ??                                      
                             PTR_TO_LST_OF_SND_ADDRS:      ;XREF[2,0]:   ram:01c1,ram:0213
-RAM:ram:7020                    undefined2  ??                                      
+RAM:ram:7020                    addr        NaP                                     
                             PTR_TO_S_ON_0:                ;XREF[4,1]:   ram:022a,ram:029a,ram:02c8,ram:032b
                                                           ;             ram:02ca
-RAM:ram:7022                    undefined2  ??                                      
+RAM:ram:7022                    addr        NaP                                     
                             PTR_TO_S_ON_1:                ;XREF[4,0]:   ram:022d,ram:029d,ram:0306,ram:0b6b
-RAM:ram:7024                    undefined2  ??                                      
+RAM:ram:7024                    addr        NaP                                     
                             PTR_TO_S_ON_2:                ;XREF[3,0]:   ram:0230,ram:02a0,ram:0313
-RAM:ram:7026                    undefined2  ??                                      
+RAM:ram:7026                    addr        NaP                                     
                             PTR_TO_S_ON_3:                ;XREF[3,0]:   ram:0233,ram:02a3,ram:0320
-RAM:ram:7028                    undefined2  ??                                      
+RAM:ram:7028                    addr        NaP                                     
                             SAVE_CTRL:                    ;XREF[3,0]:   ram:0238,ram:0344,ram:0347
 RAM:ram:702a                    undefined1  ??                                      
                             RESUME_USER_RAM:              ;XREF[6,0]:   ram:80e7,ram:820b,ram:85d2,ram:968b
@@ -7085,6 +7086,7 @@ RAM:ram:71b0                    ??          ??
 RAM:ram:71b1                    ??          ??                                      
 RAM:ram:71b2                    ??          ??                                      
 RAM:ram:71b3                    ??          ??                                      
+                            DONKEY_KONG_BODY_STATUS:      ;XREF[1,0]:   ram:b478
 RAM:ram:71b4                    ??          ??                                      
 RAM:ram:71b5                    ??          ??                                      
 RAM:ram:71b6                    ??          ??                                      
@@ -7119,6 +7121,7 @@ RAM:ram:71d0                    ??          ??
 RAM:ram:71d1                    ??          ??                                      
 RAM:ram:71d2                    ??          ??                                      
 RAM:ram:71d3                    ??          ??                                      
+                            DONKEY_KONG_HEAD_SPRITE_STA...;XREF[1,0]:   ram:b466
 RAM:ram:71d4                    ??          ??                                      
 RAM:ram:71d5                    ??          ??                                      
 RAM:ram:71d6                    ??          ??                                      
@@ -7196,7 +7199,7 @@ RAM:ram:721d                    ??          ??
 RAM:ram:721e                    ??          ??                                      
 RAM:ram:721f                    ??          ??                                      
 RAM:ram:7220                    ??          ??                                      
-                            DAT_ram_7221:                 ;XREF[6,0]:   ram:1c6b,ram:1c9d,ram:8004,ram:8285
+                            SPRITE_ORDER_TABLE_:          ;XREF[6,0]:   ram:1c6b,ram:1c9d,ram:8004,ram:8285
                                                           ;             ram:86a0,ram:86aa
 RAM:ram:7221                    undefined1  ??                                      
                             DAT_ram_7222:                 ;XREF[3,0]:   ram:1c6b,ram:1c9d,ram:86aa
@@ -7726,14 +7729,14 @@ RAM:ram:73fa                    dw          ??
 RAM:ram:73fc                    dw          ??                                      
                             SAVED_COUNT:                  ;XREF[4,0]:   ram:1baa,ram:1bd5,ram:1be7,ram:1bfa
 RAM:ram:73fe                    dw          ??                                      
-                            BYTE_ram_8000:                ;XREF[2,0]:   ram:006e,ram:13ae
+                            CART_ID_1:                    ;XREF[2,0]:   ram:006e,ram:13ae
 ROM:ram:8000    aa              db          AAh                                     ;Standard Coleco Cartridge
-                            DAT_ram_8001:                 ;XREF[1,0]:   ram:13b4
+                            CART_ID_2:                    ;XREF[1,0]:   ram:13b4
 ROM:ram:8001    55              undefined1  55h                                     ;Coleco Cart
                             PTR_DAT_ram_7231_ram_8002:    ;XREF[3,0]:   ram:1c35,ram:1c9a,ram:823c
 ROM:ram:8002    3172            addr        RAM:DAT_ram_7231                        ;Local Sprite Table
-                            PTR_DAT_ram_7221_ram_8004:    ;XREF[3,0]:   ram:1c68,ram:1c82,ram:8285
-ROM:ram:8004    2172            addr        RAM:DAT_ram_7221                        ;Sprite Order Table
+                            PTR_SPRITE_ORDER_TABLE__ram...;XREF[3,0]:   ram:1c68,ram:1c82,ram:8285
+ROM:ram:8004    2172            addr        RAM:SPRITE_ORDER_TABLE_                 ;Sprite Order Table
                             PTR_WORK_BUFFER_ram_8006:     ;XREF[53,0]:  ram:05c8,ram:074b,ram:07a5,ram:07cf
                                                           ;             ram:08df,ram:0955,ram:0a87,ram:0acd
                                                           ;             ram:0aeb,ram:0af3,ram:0b0a,ram:0b12
@@ -7827,7 +7830,7 @@ ROM:ram:805a    cd7c1f          CALL        OS7:GAME_OPT                        
 ROM:ram:805d    cdd884          CALL        FUN_ram_84d8                            ;undefined FUN_ram_84d8()
 ROM:ram:8060    3aa670          LD          A,(RAM:DAT_ram_70a6)                    ;= ??
 ROM:ram:8063    32a770          LD          (RAM:DAT_ram_70a7),A                    ;= ??
-ROM:ram:8066    cd7e82          CALL        FUN_ram_827e                            ;undefined FUN_ram_827e()
+ROM:ram:8066    cd7e82          CALL        DKONG_INIT_VDP                          ;undefined DKONG_INIT_VDP()
 ROM:ram:8069    cda384          CALL        FUN_ram_84a3                            ;undefined FUN_ram_84a3()
 ROM:ram:806c    21c773          LD          HL,0x73c7                               
 ROM:ram:806f    3601            LD          (HL=>RAM:MUX_SPRITES),0x1               ;= ??
@@ -7837,7 +7840,7 @@ ROM:ram:8072    324971          LD          (RAM:DAT_ram_7149),A                
 ROM:ram:8075    3aa770          LD          A,(RAM:DAT_ram_70a7)                    ;= ??
 ROM:ram:8078    32a670          LD          (RAM:DAT_ram_70a6),A                    ;= ??
 ROM:ram:807b    cdd280          CALL        FUN_ram_80d2                            ;undefined FUN_ram_80d2()
-ROM:ram:807e    cd3597          CALL        FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:807e    cd3597          CALL        TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
 ROM:ram:8081    3e90            LD          A,0x90                                  
 ROM:ram:8083    324070          LD          (RAM:CONTROLLER_MAP),A                  ;= ??
 ROM:ram:8086    324170          LD          (RAM:DAT_ram_7041),A                    ;= ??
@@ -8002,21 +8005,21 @@ ROM:ram:81d8    34              INC         (HL=>RAM:DAT_ram_70a6)              
 ROM:ram:81d9    1826            JR          LAB_ram_8201                            
                             LAB_ram_81db:                 ;XREF[1,0]:   ram:81ac
 ROM:ram:81db    dde5            PUSH        IX=>RAM:DAT_ram_7037                    ;= ??
-ROM:ram:81dd    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:81dd    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:81e0    060c            LD          B,0xc                                   
 ROM:ram:81e2    cd3099          CALL        FUN_ram_9930                            ;undefined FUN_ram_9930()
 ROM:ram:81e5    060d            LD          B,0xd                                   
 ROM:ram:81e7    cd3099          CALL        FUN_ram_9930                            ;undefined FUN_ram_9930()
 ROM:ram:81ea    21f000          LD          HL,0xf0                                 
 ROM:ram:81ed    cd7c9a          CALL        FUN_ram_9a7c                            ;undefined FUN_ram_9a7c()
-ROM:ram:81f0    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:81f0    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:81f3    215000          LD          HL,0x50                                 
 ROM:ram:81f6    cd7c9a          CALL        FUN_ram_9a7c                            ;undefined FUN_ram_9a7c()
 ROM:ram:81f9    dde1            POP         IX                                      
 ROM:ram:81fb    dd3506          DEC         (IX+0x6)=>RAM:DAT_ram_703d              ;= ??
 ROM:ram:81fe    cdb498          CALL        FUN_ram_98b4                            ;undefined FUN_ram_98b4()
                             LAB_ram_8201:                 ;XREF[2,0]:   ram:81c7,ram:81d9
-ROM:ram:8201    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:8201    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:8204    c3ea80          JP          LAB_ram_80ea                            
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
@@ -8050,7 +8053,7 @@ ROM:ram:822f    2804            JR          Z,LAB_ram_8235
 ROM:ram:8231    214170          LD          HL,0x7041                               
 ROM:ram:8234    70              LD          (HL=>RAM:DAT_ram_7041),B                ;= ??
                             LAB_ram_8235:                 ;XREF[1,0]:   ram:822f
-ROM:ram:8235    cd3597          CALL        FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:8235    cd3597          CALL        TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
 ROM:ram:8238    97              SUB         A                                       
 ROM:ram:8239    32c673          LD          (RAM:DEFER_WRITES),A                    ;= ??
 ROM:ram:823c    2a0280          LD          HL,(PTR_DAT_ram_7231_ram_8002)          ;= ram:7231
@@ -8088,12 +8091,12 @@ ROM:ram:827d    9b              ??          9Bh
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_827e()
+                            ;undefined DKONG_INIT_VDP()
                                                           ;XREF[1,0]:   ram:8066
-ROM:ram:827e    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:827e    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:8281    3ed0            LD          A,0xd0                                  
 ROM:ram:8283    0648            LD          B,0x48                                  
-ROM:ram:8285    2a0480          LD          HL=>RAM:DAT_ram_...,(PTR_DAT_ram_7221...;= ??
+ROM:ram:8285    2a0480          LD          HL=>RAM:SPRITE_O...,(->SPRITE_ORDER_T...;= ??
                                                                                     ;= ram:7221
 ROM:ram:8288    cdfa97          CALL        FUN_ram_97fa                            ;undefined FUN_ram_97fa()
 ROM:ram:828b    3e00            LD          A,0x0                                   
@@ -8102,7 +8105,7 @@ ROM:ram:8290    fd211200        LD          IY,0x12
 ROM:ram:8294    cdbe1f          CALL        OS7:PUT_VRAM                            ;void PUT_VRAM(uchar table, ushort st...
 ROM:ram:8297    3e10            LD          A,0x10                                  
 ROM:ram:8299    cdc11f          CALL        OS7:INIT_SPR_ORDER                      ;void INIT_SPR_ORDER(byte sprite_count)
-ROM:ram:829c    cd6c85          CALL        FUN_ram_856c                            ;undefined FUN_ram_856c()
+ROM:ram:829c    cd6c85          CALL        RESET_GAME_STATE                        ;undefined RESET_GAME_STATE()
 ROM:ram:829f    010200          LD          BC,0x2                                  
 ROM:ram:82a2    cdd91f          CALL        OS7:WRITE_REGISTER                      ;void WRITE_REGISTER(uchar register, ...
 ROM:ram:82a5    010007          LD          BC,0x700                                
@@ -8122,7 +8125,7 @@ ROM:ram:82c8    cdb81f          CALL        OS7:INIT_TABLE                      
 ROM:ram:82cb    3e04            LD          A,0x4                                   
 ROM:ram:82cd    210000          LD          HL,0x0                                  
 ROM:ram:82d0    cdb81f          CALL        OS7:INIT_TABLE                          ;void INIT_TABLE(uchar table, ushort ...
-ROM:ram:82d3    c33597          JP          FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:82d3    c33597          JP          TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
@@ -8328,7 +8331,7 @@ ROM:ram:8428    3d              DEC         A
 ROM:ram:8429    325b71          LD          (RAM:DAT_ram_715b),A                    ;= ??
 ROM:ram:842c    20cb            JR          NZ,FUN_ram_83f9                         
 ROM:ram:842e    c9              RET                                                 
-ROM:ram:842f    cd3597          CALL        FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:842f    cd3597          CALL        TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
 ROM:ram:8432    cd9984          CALL        FUN_ram_8499                            ;undefined FUN_ram_8499()
 ROM:ram:8435    c34b97          JP          FUN_ram_974b                            ;undefined FUN_ram_974b()
                             ;************************************************************************************************
@@ -8351,12 +8354,12 @@ ROM:ram:845b    fd2159b3        LD          IY,0xb359
 ROM:ram:845f    3a2c70          LD          A,(RAM:DAT_ram_702c)                    ;= ??
 ROM:ram:8462    cd3683          CALL        FUN_ram_8336                            ;undefined FUN_ram_8336()
 ROM:ram:8465    cdd682          CALL        FUN_ram_82d6                            ;undefined FUN_ram_82d6()
-ROM:ram:8468    cd6e84          CALL        FUN_ram_846e                            ;undefined FUN_ram_846e()
-ROM:ram:846b    c33597          JP          FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:8468    cd6e84          CALL        PUT_UP_AND_DIGITS_INTO_PATTERNS         ;undefined PUT_UP_AND_DIGITS_INTO_PAT...
+ROM:ram:846b    c33597          JP          TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_846e()
+                            ;undefined PUT_UP_AND_DIGITS_INTO_PATTERNS()
                                                           ;XREF[1,0]:   ram:8468
 ROM:ram:846e    fd210a00        LD          IY,0xa                                  
 ROM:ram:8472    11a200          LD          DE,0xa2                                 
@@ -8367,7 +8370,7 @@ ROM:ram:8479    3e03            LD          A,PATTERN_GENERATOR_TABLE
 ROM:ram:847b    cdbe1f          CALL        OS7:PUT_VRAM                            ;void PUT_VRAM(uchar table, ushort st...
 ROM:ram:847e    fd210200        LD          IY,0x2                                  
 ROM:ram:8482    11ac00          LD          DE,0xac                                 
-ROM:ram:8485    219bab          LD          HL,DAT_ram_ab9b                         ;= 82h
+ROM:ram:8485    219bab          LD          HL,UP_PATTERNS                          ;= 82h
 ROM:ram:8488    3e03            LD          A,PATTERN_GENERATOR_TABLE               
 ROM:ram:848a    cdbe1f          CALL        OS7:PUT_VRAM                            ;void PUT_VRAM(uchar table, ushort st...
 ROM:ram:848d    e1              POP         HL                                      
@@ -8409,7 +8412,7 @@ ROM:ram:84c9    111f00          LD          DE,0x1f
 ROM:ram:84cc    012700          LD          BC,0x27                                 
 ROM:ram:84cf    217b00          LD          HL,0x7b                                 
 ROM:ram:84d2    cd6a1f          CALL        OS7:REFLECT_VERTICAL                    ;void REFLECT_VERTICAL(uchar table, u...
-ROM:ram:84d5    c33597          JP          FUN_ram_9735                            ;undefined FUN_ram_9735()
+ROM:ram:84d5    c33597          JP          TURN_ON_DISPLAY_WITH_SIZE1_SPRITES      ;undefined TURN_ON_DISPLAY_WITH_SIZE1...
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
@@ -8518,7 +8521,7 @@ ROM:ram:856a    ed45            RETN
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_856c()
+                            ;undefined RESET_GAME_STATE()
                                                           ;XREF[1,0]:   ram:829c
 ROM:ram:856c    210000          LD          HL,0x0                                  
 ROM:ram:856f    226571          LD          (RAM:DAT_ram_7165),HL                   ;= ??
@@ -8720,7 +8723,7 @@ ROM:ram:86a7    0603            LD          B,0x3
 ROM:ram:86a9    af              XOR         A                                       
                             LAB_ram_86aa:                 ;XREF[1,0]:   ram:86ad
                                                           ; FWD[2,0]:   ram:7221,ram:7222
-ROM:ram:86aa    77              LD          (HL=>RAM:DAT_ram_7221),A                ;= ??
+ROM:ram:86aa    77              LD          (HL=>RAM:SPRITE_ORDER_TABLE_),A         ;= ??
 ROM:ram:86ab    3c              INC         A                                       
 ROM:ram:86ac    23              INC         HL                                      
 ROM:ram:86ad    10fb            DJNZ        LAB_ram_86aa                            
@@ -9419,14 +9422,14 @@ ROM:ram:8b51    fe00            CP          0x0
 ROM:ram:8b53    200b            JR          NZ,LAB_ram_8b60                         
 ROM:ram:8b55    01e020          LD          BC,0x20e0                               
 ROM:ram:8b58    3e9c            LD          A,0x9c                                  
-ROM:ram:8b5a    cd508c          CALL        FUN_ram_8c50                            ;undefined FUN_ram_8c50()
+ROM:ram:8b5a    cd508c          CALL        FUN_ram_8c50                            ;void FUN_ram_8c50(char param_1, usho...
 ROM:ram:8b5d    c3248c          JP          LAB_ram_8c24                            
                             LAB_ram_8b60:                 ;XREF[1,0]:   ram:8b53
 ROM:ram:8b60    fe01            CP          0x1                                     
 ROM:ram:8b62    2028            JR          NZ,LAB_ram_8b8c                         
 ROM:ram:8b64    01c817          LD          BC,0x17c8                               
 ROM:ram:8b67    3eac            LD          A,0xac                                  
-ROM:ram:8b69    cd508c          CALL        FUN_ram_8c50                            ;undefined FUN_ram_8c50()
+ROM:ram:8b69    cd508c          CALL        FUN_ram_8c50                            ;void FUN_ram_8c50(char param_1, usho...
 ROM:ram:8b6c    1117c8          LD          DE,0xc817                               
 ROM:ram:8b6f    06fe            LD          B,0xfe                                  
 ROM:ram:8b71    3ef5            LD          A,0xf5                                  
@@ -9453,7 +9456,7 @@ ROM:ram:8ba4    fe00            CP          0x0
 ROM:ram:8ba6    200a            JR          NZ,LAB_ram_8bb2                         
 ROM:ram:8ba8    01e020          LD          BC,0x20e0                               
 ROM:ram:8bab    3e9c            LD          A,0x9c                                  
-ROM:ram:8bad    cd508c          CALL        FUN_ram_8c50                            ;undefined FUN_ram_8c50()
+ROM:ram:8bad    cd508c          CALL        FUN_ram_8c50                            ;void FUN_ram_8c50(char param_1, usho...
 ROM:ram:8bb0    1872            JR          LAB_ram_8c24                            
                             LAB_ram_8bb2:                 ;XREF[1,0]:   ram:8ba6
 ROM:ram:8bb2    3a6f71          LD          A,(RAM:DAT_ram_716f)                    ;= ??
@@ -9461,7 +9464,7 @@ ROM:ram:8bb5    fe01            CP          0x1
 ROM:ram:8bb7    200a            JR          NZ,LAB_ram_8bc3                         
 ROM:ram:8bb9    01c817          LD          BC,0x17c8                               
 ROM:ram:8bbc    3eac            LD          A,0xac                                  
-ROM:ram:8bbe    cd508c          CALL        FUN_ram_8c50                            ;undefined FUN_ram_8c50()
+ROM:ram:8bbe    cd508c          CALL        FUN_ram_8c50                            ;void FUN_ram_8c50(char param_1, usho...
 ROM:ram:8bc1    1861            JR          LAB_ram_8c24                            
                             LAB_ram_8bc3:                 ;XREF[1,0]:   ram:8bb7
 ROM:ram:8bc3    3a6f71          LD          A,(RAM:DAT_ram_716f)                    ;= ??
@@ -9527,35 +9530,29 @@ ROM:ram:8c33    12              LD          (DE=>RAM:DAT_ram_71cd),A            
 ROM:ram:8c34    23              INC         HL                                      
 ROM:ram:8c35    7e              LD          A,(HL)                                  
 ROM:ram:8c36    326f71          LD          (RAM:DAT_ram_716f),A                    ;= ??
-ROM:ram:8c39    dd213db4        LD          IX,DAT_ram_b43d                         ;= 45h    E
+ROM:ram:8c39    dd213db4        LD          IX,COMPLEX_OBJECT_DONKEY_KONG           ;= B445h
 ROM:ram:8c3d    c3fa1f          JP          OS7:PUT_OBJ                             ;void PUT_OBJ(void * object, uchar bk...
-ROM:ram:8c40    00              ??          00h                                     
-ROM:ram:8c41    00              ??          00h                                     
-ROM:ram:8c42    02              ??          02h                                     
-ROM:ram:8c43    01              ??          01h                                     
-ROM:ram:8c44    00              ??          00h                                     
-ROM:ram:8c45    02              ??          02h                                     
-ROM:ram:8c46    00              ??          00h                                     
-ROM:ram:8c47    00              ??          00h                                     
-ROM:ram:8c48    02              ??          02h                                     
-ROM:ram:8c49    01              ??          01h                                     
-ROM:ram:8c4a    00              ??          00h                                     
-ROM:ram:8c4b    02              ??          02h                                     
-ROM:ram:8c4c    01              ??          01h                                     
-ROM:ram:8c4d    03              ??          03h                                     
-ROM:ram:8c4e    03              ??          03h                                     
-ROM:ram:8c4f    00              ??          00h                                     
+ROM:ram:8c40    0000            dw          0h                                      
+ROM:ram:8c42    0201            dw          102h                                    
+ROM:ram:8c44    0002            dw          200h                                    
+ROM:ram:8c46    0000            dw          0h                                      
+ROM:ram:8c48    0201            dw          102h                                    
+ROM:ram:8c4a    0002            dw          200h                                    
+ROM:ram:8c4c    0103            dw          301h                                    
+ROM:ram:8c4e    0300            dw          3h                                      
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_8c50()
+                            ;void FUN_ram_8c50(char param_1, ushort param_2)
+          ;param_1       char                 A                      
+          ;param_2       ushort              BC                      
                                                           ;XREF[4,0]:   ram:8b5a,ram:8b69,ram:8bad,ram:8bbe
 ROM:ram:8c50    216972          LD          HL,0x7269                               
-ROM:ram:8c53    70              LD          (HL=>RAM:DAT_ram_7269),B                ;= ??
+ROM:ram:8c53    70              LD          (HL=>RAM:DAT_ram_7269),param_2          ;= ??
 ROM:ram:8c54    23              INC         HL                                      
-ROM:ram:8c55    71              LD          (HL=>RAM:DAT_ram_726a),C                ;= ??
+ROM:ram:8c55    71              LD          (HL=>RAM:DAT_ram_726a),param_2          ;= ??
 ROM:ram:8c56    23              INC         HL                                      
-ROM:ram:8c57    77              LD          (HL=>RAM:DAT_ram_726b),A                ;= ??
+ROM:ram:8c57    77              LD          (HL=>RAM:DAT_ram_726b),param_1          ;= ??
 ROM:ram:8c58    23              INC         HL                                      
 ROM:ram:8c59    3606            LD          (HL=>RAM:DAT_ram_726c),0x6              ;= ??
 ROM:ram:8c5b    c9              RET                                                 
@@ -10762,7 +10759,7 @@ ROM:ram:957b    3aed70          LD          A,(RAM:DAT_ram_70ed)                
 ROM:ram:957e    cdca1f          CALL        OS7:FREE_SIGNAL                         ;void FREE_SIGNAL(uchar signal_num)
 ROM:ram:9581    3af370          LD          A,(RAM:DAT_ram_70f3)                    ;= ??
 ROM:ram:9584    cdca1f          CALL        OS7:FREE_SIGNAL                         ;void FREE_SIGNAL(uchar signal_num)
-ROM:ram:9587    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:9587    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:958a    0601            LD          B,0x1                                   
 ROM:ram:958c    c33099          JP          FUN_ram_9930                            ;undefined FUN_ram_9930()
                             LAB_ram_958f:                 ;XREF[1,0]:   ram:9561
@@ -10771,7 +10768,7 @@ ROM:ram:9593    fd218d72        LD          IY,0x728d
 ROM:ram:9597    3aea70          LD          A,(RAM:DAT_ram_70ea)                    ;= ??
 ROM:ram:959a    cb47            BIT         0x0,A                                   
 ROM:ram:959c    2032            JR          NZ,LAB_ram_95d0                         
-ROM:ram:959e    cd5e9a          CALL        FUN_ram_9a5e                            ;undefined FUN_ram_9a5e()
+ROM:ram:959e    cd5e9a          CALL        SET_UP_SOUND                            ;undefined SET_UP_SOUND()
 ROM:ram:95a1    0602            LD          B,0x2                                   
 ROM:ram:95a3    cd3099          CALL        FUN_ram_9930                            ;undefined FUN_ram_9930()
 ROM:ram:95a6    3e01            LD          A,0x1                                   
@@ -11061,7 +11058,7 @@ ROM:ram:9734    c9              RET
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_9735()
+                            ;undefined TURN_ON_DISPLAY_WITH_SIZE1_SPRITES()
                                                           ;XREF[6,0]:   ram:807e,ram:8235,ram:82d3,ram:842f
                                                           ;             ram:846b,ram:84d5
 ROM:ram:9735    01c201          LD          BC,0x1c2                                
@@ -11654,10 +11651,10 @@ ROM:ram:9a5b    c3f496          JP          FUN_ram_96f4                        
                             ;************************************************************************************************
                             ;*                                           FUNCTION                                           *
                             ;************************************************************************************************
-                            ;undefined FUN_ram_9a5e()
+                            ;undefined SET_UP_SOUND()
                                                           ;XREF[6,0]:   ram:81dd,ram:81f0,ram:8201,ram:827e
                                                           ;             ram:9587,ram:959e
-ROM:ram:9a5e    0607            LD          B,0x7                                   
+ROM:ram:9a5e    0607            LD          B,0x7                                   ;Set up 7 sound data areas, at {@addr...
 ROM:ram:9a60    21a49e          LD          HL,0x9ea4                               
 ROM:ram:9a63    c3ee1f          JP          OS7:SOUND_INIT                          ;void SOUND_INIT(uchar sound_data_are...
                             ;************************************************************************************************
@@ -12746,6 +12743,7 @@ ROM:ram:9ea0    a4              ??          A4h
 ROM:ram:9ea1    00              ??          00h                                     
 ROM:ram:9ea2    10              ??          10h                                     
 ROM:ram:9ea3    00              ??          00h                                     
+                            SOUND_DATA_AREAS:             
 ROM:ram:9ea4    f6              ??          F6h                                     
 ROM:ram:9ea5    9f              ??          9Fh                                     
 ROM:ram:9ea6    da              ??          DAh                                     
@@ -14809,150 +14807,151 @@ ROM:ram:a6af    e3              ??          E3h
 ROM:ram:a6b0    0f              ??          0Fh                                     
 ROM:ram:a6b1    fc              ??          FCh                                     
 ROM:ram:a6b2    f8              ??          F8h                                     
-ROM:ram:a6b3    00              ??          00h                                     
-ROM:ram:a6b4    00              ??          00h                                     
-ROM:ram:a6b5    0c              ??          0Ch                                     
-ROM:ram:a6b6    9e              ??          9Eh                                     
-ROM:ram:a6b7    9f              ??          9Fh                                     
-ROM:ram:a6b8    8d              ??          8Dh                                     
-ROM:ram:a6b9    8f              ??          8Fh                                     
-ROM:ram:a6ba    fe              ??          FEh                                     
-ROM:ram:a6bb    ff              ??          FFh                                     
-ROM:ram:a6bc    e0              ??          E0h                                     
-ROM:ram:a6bd    df              ??          DFh                                     
-ROM:ram:a6be    3f              ??          3Fh    ?                                
-ROM:ram:a6bf    7f              ??          7Fh                                    
-ROM:ram:a6c0    1f              ??          1Fh                                     
-ROM:ram:a6c1    00              ??          00h                                     
-ROM:ram:a6c2    00              ??          00h                                     
-ROM:ram:a6c3    00              ??          00h                                     
-ROM:ram:a6c4    00              ??          00h                                     
-ROM:ram:a6c5    30              ??          30h    0                                
-ROM:ram:a6c6    79              ??          79h    y                                
-ROM:ram:a6c7    f9              ??          F9h                                     
-ROM:ram:a6c8    b1              ??          B1h                                     
-ROM:ram:a6c9    f1              ??          F1h                                     
-ROM:ram:a6ca    7f              ??          7Fh                                    
-ROM:ram:a6cb    ff              ??          FFh                                     
-ROM:ram:a6cc    07              ??          07h                                     
-ROM:ram:a6cd    fb              ??          FBh                                     
-ROM:ram:a6ce    fc              ??          FCh                                     
-ROM:ram:a6cf    fe              ??          FEh                                     
-ROM:ram:a6d0    f8              ??          F8h                                     
-ROM:ram:a6d1    00              ??          00h                                     
-ROM:ram:a6d2    00              ??          00h                                     
-ROM:ram:a6d3    00              ??          00h                                     
-ROM:ram:a6d4    00              ??          00h                                     
-ROM:ram:a6d5    01              ??          01h                                     
-ROM:ram:a6d6    07              ??          07h                                     
-ROM:ram:a6d7    07              ??          07h                                     
-ROM:ram:a6d8    0d              ??          0Dh                                     
-ROM:ram:a6d9    3f              ??          3Fh    ?                                
-ROM:ram:a6da    7f              ??          7Fh                                    
-ROM:ram:a6db    7f              ??          7Fh                                    
-ROM:ram:a6dc    ff              ??          FFh                                     
-ROM:ram:a6dd    03              ??          03h                                     
-ROM:ram:a6de    7d              ??          7Dh    }                                
-ROM:ram:a6df    3f              ??          3Fh    ?                                
-ROM:ram:a6e0    3f              ??          3Fh    ?                                
-ROM:ram:a6e1    03              ??          03h                                     
-ROM:ram:a6e2    00              ??          00h                                     
-ROM:ram:a6e3    00              ??          00h                                     
-ROM:ram:a6e4    80              ??          80h                                     
-ROM:ram:a6e5    c0              ??          C0h                                     
-ROM:ram:a6e6    e0              ??          E0h                                     
-ROM:ram:a6e7    ee              ??          EEh                                     
-ROM:ram:a6e8    ee              ??          EEh                                     
-ROM:ram:a6e9    ee              ??          EEh                                     
-ROM:ram:a6ea    8e              ??          8Eh                                     
-ROM:ram:a6eb    8c              ??          8Ch                                     
-ROM:ram:a6ec    fc              ??          FCh                                     
-ROM:ram:a6ed    fc              ??          FCh                                     
-ROM:ram:a6ee    f8              ??          F8h                                     
-ROM:ram:a6ef    e0              ??          E0h                                     
-ROM:ram:a6f0    e0              ??          E0h                                     
-ROM:ram:a6f1    80              ??          80h                                     
-ROM:ram:a6f2    00              ??          00h                                     
-ROM:ram:a6f3    00              ??          00h                                     
-ROM:ram:a6f4    01              ??          01h                                     
-ROM:ram:a6f5    03              ??          03h                                     
-ROM:ram:a6f6    07              ??          07h                                     
-ROM:ram:a6f7    67              ??          67h    g                                
-ROM:ram:a6f8    e7              ??          E7h                                     
-ROM:ram:a6f9    e7              ??          E7h                                     
-ROM:ram:a6fa    f1              ??          F1h                                     
-ROM:ram:a6fb    30              ??          30h    0                                
-ROM:ram:a6fc    31              ??          31h    1                                
-ROM:ram:a6fd    3b              ??          3Bh    ;                                
-ROM:ram:a6fe    1f              ??          1Fh                                     
-ROM:ram:a6ff    07              ??          07h                                     
-ROM:ram:a700    07              ??          07h                                     
-ROM:ram:a701    01              ??          01h                                     
-ROM:ram:a702    00              ??          00h                                     
-ROM:ram:a703    00              ??          00h                                     
-ROM:ram:a704    00              ??          00h                                     
-ROM:ram:a705    80              ??          80h                                     
-ROM:ram:a706    e0              ??          E0h                                     
-ROM:ram:a707    e0              ??          E0h                                     
-ROM:ram:a708    b0              ??          B0h                                     
-ROM:ram:a709    fc              ??          FCh                                     
-ROM:ram:a70a    fe              ??          FEh                                     
-ROM:ram:a70b    fe              ??          FEh                                     
-ROM:ram:a70c    ff              ??          FFh                                     
-ROM:ram:a70d    c0              ??          C0h                                     
-ROM:ram:a70e    be              ??          BEh                                     
-ROM:ram:a70f    7c              ??          7Ch    |                                
-ROM:ram:a710    fc              ??          FCh                                     
-ROM:ram:a711    80              ??          80h                                     
-ROM:ram:a712    00              ??          00h                                     
-ROM:ram:a713    00              ??          00h                                     
-ROM:ram:a714    00              ??          00h                                     
-ROM:ram:a715    00              ??          00h                                     
-ROM:ram:a716    78              ??          78h    x                                
-ROM:ram:a717    da              ??          DAh                                     
-ROM:ram:a718    7c              ??          7Ch    |                                
-ROM:ram:a719    3c              ??          3Ch    <                                
-ROM:ram:a71a    00              ??          00h                                     
-ROM:ram:a71b    00              ??          00h                                     
-ROM:ram:a71c    00              ??          00h                                     
-ROM:ram:a71d    00              ??          00h                                     
-ROM:ram:a71e    00              ??          00h                                     
-ROM:ram:a71f    00              ??          00h                                     
-ROM:ram:a720    00              ??          00h                                     
-ROM:ram:a721    00              ??          00h                                     
-ROM:ram:a722    00              ??          00h                                     
-ROM:ram:a723    00              ??          00h                                     
-ROM:ram:a724    00              ??          00h                                     
-ROM:ram:a725    00              ??          00h                                     
-ROM:ram:a726    00              ??          00h                                     
-ROM:ram:a727    00              ??          00h                                     
-ROM:ram:a728    00              ??          00h                                     
-ROM:ram:a729    00              ??          00h                                     
-ROM:ram:a72a    00              ??          00h                                     
-ROM:ram:a72b    00              ??          00h                                     
-ROM:ram:a72c    00              ??          00h                                     
-ROM:ram:a72d    00              ??          00h                                     
-ROM:ram:a72e    00              ??          00h                                     
-ROM:ram:a72f    00              ??          00h                                     
-ROM:ram:a730    00              ??          00h                                     
-ROM:ram:a731    00              ??          00h                                     
-ROM:ram:a732    00              ??          00h                                     
-ROM:ram:a733    00              ??          00h                                     
-ROM:ram:a734    00              ??          00h                                     
-ROM:ram:a735    00              ??          00h                                     
-ROM:ram:a736    00              ??          00h                                     
-ROM:ram:a737    00              ??          00h                                     
-ROM:ram:a738    03              ??          03h                                     
-ROM:ram:a739    27              ??          27h    '                                
-ROM:ram:a73a    47              ??          47h    G                                
-ROM:ram:a73b    c7              ??          C7h                                     
-ROM:ram:a73c    e3              ??          E3h                                     
-ROM:ram:a73d    77              ??          77h    w                                
-ROM:ram:a73e    7f              ??          7Fh                                    
-ROM:ram:a73f    3f              ??          3Fh    ?                                
-ROM:ram:a740    3f              ??          3Fh    ?                                
-ROM:ram:a741    1f              ??          1Fh                                     
-ROM:ram:a742    07              ??          07h                                     
+                            DONKEY_KONG_HEAD_GENERATORS:  ;XREF[1,0]:   ram:b46b
+ROM:ram:a6b3    00              db          0h                                      
+ROM:ram:a6b4    00              db          0h                                      
+ROM:ram:a6b5    0c              db          Ch                                      
+ROM:ram:a6b6    9e              db          9Eh                                     
+ROM:ram:a6b7    9f              db          9Fh                                     
+ROM:ram:a6b8    8d              db          8Dh                                     
+ROM:ram:a6b9    8f              db          8Fh                                     
+ROM:ram:a6ba    fe              db          FEh                                     
+ROM:ram:a6bb    ff              db          FFh                                     
+ROM:ram:a6bc    e0              db          E0h                                     
+ROM:ram:a6bd    df              db          DFh                                     
+ROM:ram:a6be    3f              db          3Fh                                     
+ROM:ram:a6bf    7f              db          7Fh                                     
+ROM:ram:a6c0    1f              db          1Fh                                     
+ROM:ram:a6c1    00              db          0h                                      
+ROM:ram:a6c2    00              db          0h                                      
+ROM:ram:a6c3    00              db          0h                                      
+ROM:ram:a6c4    00              db          0h                                      
+ROM:ram:a6c5    30              db          30h                                     
+ROM:ram:a6c6    79              db          79h                                     
+ROM:ram:a6c7    f9              db          F9h                                     
+ROM:ram:a6c8    b1              db          B1h                                     
+ROM:ram:a6c9    f1              db          F1h                                     
+ROM:ram:a6ca    7f              db          7Fh                                     
+ROM:ram:a6cb    ff              db          FFh                                     
+ROM:ram:a6cc    07              db          7h                                      
+ROM:ram:a6cd    fb              db          FBh                                     
+ROM:ram:a6ce    fc              db          FCh                                     
+ROM:ram:a6cf    fe              db          FEh                                     
+ROM:ram:a6d0    f8              db          F8h                                     
+ROM:ram:a6d1    00              db          0h                                      
+ROM:ram:a6d2    00              db          0h                                      
+ROM:ram:a6d3    00              db          0h                                      
+ROM:ram:a6d4    00              db          0h                                      
+ROM:ram:a6d5    01              db          1h                                      
+ROM:ram:a6d6    07              db          7h                                      
+ROM:ram:a6d7    07              db          7h                                      
+ROM:ram:a6d8    0d              db          Dh                                      
+ROM:ram:a6d9    3f              db          3Fh                                     
+ROM:ram:a6da    7f              db          7Fh                                     
+ROM:ram:a6db    7f              db          7Fh                                     
+ROM:ram:a6dc    ff              db          FFh                                     
+ROM:ram:a6dd    03              db          3h                                      
+ROM:ram:a6de    7d              db          7Dh                                     
+ROM:ram:a6df    3f              db          3Fh                                     
+ROM:ram:a6e0    3f              db          3Fh                                     
+ROM:ram:a6e1    03              db          3h                                      
+ROM:ram:a6e2    00              db          0h                                      
+ROM:ram:a6e3    00              db          0h                                      
+ROM:ram:a6e4    80              db          80h                                     
+ROM:ram:a6e5    c0              db          C0h                                     
+ROM:ram:a6e6    e0              db          E0h                                     
+ROM:ram:a6e7    ee              db          EEh                                     
+ROM:ram:a6e8    ee              db          EEh                                     
+ROM:ram:a6e9    ee              db          EEh                                     
+ROM:ram:a6ea    8e              db          8Eh                                     
+ROM:ram:a6eb    8c              db          8Ch                                     
+ROM:ram:a6ec    fc              db          FCh                                     
+ROM:ram:a6ed    fc              db          FCh                                     
+ROM:ram:a6ee    f8              db          F8h                                     
+ROM:ram:a6ef    e0              db          E0h                                     
+ROM:ram:a6f0    e0              db          E0h                                     
+ROM:ram:a6f1    80              db          80h                                     
+ROM:ram:a6f2    00              db          0h                                      
+ROM:ram:a6f3    00              db          0h                                      
+ROM:ram:a6f4    01              db          1h                                      
+ROM:ram:a6f5    03              db          3h                                      
+ROM:ram:a6f6    07              db          7h                                      
+ROM:ram:a6f7    67              db          67h                                     
+ROM:ram:a6f8    e7              db          E7h                                     
+ROM:ram:a6f9    e7              db          E7h                                     
+ROM:ram:a6fa    f1              db          F1h                                     
+ROM:ram:a6fb    30              db          30h                                     
+ROM:ram:a6fc    31              db          31h                                     
+ROM:ram:a6fd    3b              db          3Bh                                     
+ROM:ram:a6fe    1f              db          1Fh                                     
+ROM:ram:a6ff    07              db          7h                                      
+ROM:ram:a700    07              db          7h                                      
+ROM:ram:a701    01              db          1h                                      
+ROM:ram:a702    00              db          0h                                      
+ROM:ram:a703    00              db          0h                                      
+ROM:ram:a704    00              db          0h                                      
+ROM:ram:a705    80              db          80h                                     
+ROM:ram:a706    e0              db          E0h                                     
+ROM:ram:a707    e0              db          E0h                                     
+ROM:ram:a708    b0              db          B0h                                     
+ROM:ram:a709    fc              db          FCh                                     
+ROM:ram:a70a    fe              db          FEh                                     
+ROM:ram:a70b    fe              db          FEh                                     
+ROM:ram:a70c    ff              db          FFh                                     
+ROM:ram:a70d    c0              db          C0h                                     
+ROM:ram:a70e    be              db          BEh                                     
+ROM:ram:a70f    7c              db          7Ch                                     
+ROM:ram:a710    fc              db          FCh                                     
+ROM:ram:a711    80              db          80h                                     
+ROM:ram:a712    00              db          0h                                      
+ROM:ram:a713    00              db          0h                                      
+ROM:ram:a714    00              db          0h                                      
+ROM:ram:a715    00              db          0h                                      
+ROM:ram:a716    78              db          78h                                     
+ROM:ram:a717    da              db          DAh                                     
+ROM:ram:a718    7c              db          7Ch                                     
+ROM:ram:a719    3c              db          3Ch                                     
+ROM:ram:a71a    00              db          0h                                      
+ROM:ram:a71b    00              db          0h                                      
+ROM:ram:a71c    00              db          0h                                      
+ROM:ram:a71d    00              db          0h                                      
+ROM:ram:a71e    00              db          0h                                      
+ROM:ram:a71f    00              db          0h                                      
+ROM:ram:a720    00              db          0h                                      
+ROM:ram:a721    00              db          0h                                      
+ROM:ram:a722    00              db          0h                                      
+ROM:ram:a723    00              db          0h                                      
+ROM:ram:a724    00              db          0h                                      
+ROM:ram:a725    00              db          0h                                      
+ROM:ram:a726    00              db          0h                                      
+ROM:ram:a727    00              db          0h                                      
+ROM:ram:a728    00              db          0h                                      
+ROM:ram:a729    00              db          0h                                      
+ROM:ram:a72a    00              db          0h                                      
+ROM:ram:a72b    00              db          0h                                      
+ROM:ram:a72c    00              db          0h                                      
+ROM:ram:a72d    00              db          0h                                      
+ROM:ram:a72e    00              db          0h                                      
+ROM:ram:a72f    00              db          0h                                      
+ROM:ram:a730    00              db          0h                                      
+ROM:ram:a731    00              db          0h                                      
+ROM:ram:a732    00              db          0h                                      
+ROM:ram:a733    00              db          0h                                      
+ROM:ram:a734    00              db          0h                                      
+ROM:ram:a735    00              db          0h                                      
+ROM:ram:a736    00              db          0h                                      
+ROM:ram:a737    00              db          0h                                      
+ROM:ram:a738    03              db          3h                                      
+ROM:ram:a739    27              db          27h                                     
+ROM:ram:a73a    47              db          47h                                     
+ROM:ram:a73b    c7              db          C7h                                     
+ROM:ram:a73c    e3              db          E3h                                     
+ROM:ram:a73d    77              db          77h                                     
+ROM:ram:a73e    7f              db          7Fh                                     
+ROM:ram:a73f    3f              db          3Fh                                     
+ROM:ram:a740    3f              db          3Fh                                     
+ROM:ram:a741    1f              db          1Fh                                     
+ROM:ram:a742    07              db          7h                                      
 ROM:ram:a743    00              ??          00h                                     
 ROM:ram:a744    00              ??          00h                                     
 ROM:ram:a745    00              ??          00h                                     
@@ -15345,6 +15344,7 @@ ROM:ram:a8c7    18              ??          18h
 ROM:ram:a8c8    ff              ??          FFh                                     
 ROM:ram:a8c9    ff              ??          FFh                                     
 ROM:ram:a8ca    81              ??          81h                                     
+                            DONKEY_JONG_BODY_GENERATORS:  ;XREF[1,0]:   ram:b47f
 ROM:ram:a8cb    00              ??          00h                                     
 ROM:ram:a8cc    00              ??          00h                                     
 ROM:ram:a8cd    00              ??          00h                                     
@@ -16065,7 +16065,7 @@ ROM:ram:ab97    80              ??          80h
 ROM:ram:ab98    80              ??          80h                                     
 ROM:ram:ab99    80              ??          80h                                     
 ROM:ram:ab9a    80              ??          80h                                     
-                            DAT_ram_ab9b:                 ;XREF[1,0]:   ram:8485
+                            UP_PATTERNS:                  ;XREF[1,0]:   ram:8485
 ROM:ram:ab9b    82              ??          82h                                     
 ROM:ram:ab9c    82              ??          82h                                     
 ROM:ram:ab9d    82              ??          82h                                     
@@ -18281,159 +18281,156 @@ ROM:ram:b439    51              ??          51h    Q
 ROM:ram:b43a    52              ??          52h    R                                
 ROM:ram:b43b    53              ??          53h    S                                
 ROM:ram:b43c    54              ??          54h    T                                
-                            DAT_ram_b43d:                 ;XREF[1,0]:   ram:8c39
-ROM:ram:b43d    45              ??          45h    E                                
-ROM:ram:b43e    b4              ??          B4h                                     
-ROM:ram:b43f    cd              ??          CDh                                     
-ROM:ram:b440    71              ??          71h    q                                
-ROM:ram:b441    64              ??          64h    d                                
-ROM:ram:b442    b4              ??          B4h                                     
-ROM:ram:b443    76              ??          76h    v                                
-ROM:ram:b444    b4              ??          B4h                                     
-ROM:ram:b445    24              ??          24h    $                                
-ROM:ram:b446    52              ??          52h    R                                
-ROM:ram:b447    b4              ??          B4h                                     
-ROM:ram:b448    58              ??          58h    X                                
-ROM:ram:b449    b4              ??          B4h                                     
-ROM:ram:b44a    54              ??          54h    T                                
-ROM:ram:b44b    b4              ??          B4h                                     
-ROM:ram:b44c    5c              ??          5Ch    \                                
-ROM:ram:b44d    b4              ??          B4h                                     
-ROM:ram:b44e    56              ??          56h    V                                
-ROM:ram:b44f    b4              ??          B4h                                     
-ROM:ram:b450    60              ??          60h    `                                
-ROM:ram:b451    b4              ??          B4h                                     
-ROM:ram:b452    00              ??          00h                                     
-ROM:ram:b453    00              ??          00h                                     
-ROM:ram:b454    01              ??          01h                                     
-ROM:ram:b455    01              ??          01h                                     
-ROM:ram:b456    02              ??          02h                                     
-ROM:ram:b457    02              ??          02h                                     
-ROM:ram:b458    10              ??          10h                                     
-ROM:ram:b459    00              ??          00h                                     
-ROM:ram:b45a    00              ??          00h                                     
-ROM:ram:b45b    00              ??          00h                                     
-ROM:ram:b45c    00              ??          00h                                     
-ROM:ram:b45d    00              ??          00h                                     
-ROM:ram:b45e    00              ??          00h                                     
-ROM:ram:b45f    00              ??          00h                                     
-ROM:ram:b460    20              ??          20h                                     
-ROM:ram:b461    00              ??          00h                                     
-ROM:ram:b462    00              ??          00h                                     
-ROM:ram:b463    00              ??          00h                                     
-ROM:ram:b464    69              ??          69h    i                                
-ROM:ram:b465    b4              ??          B4h                                     
-ROM:ram:b466    d4              ??          D4h                                     
-ROM:ram:b467    71              ??          71h    q                                
-ROM:ram:b468    0c              ??          0Ch                                     
-ROM:ram:b469    03              ??          03h                                     
-ROM:ram:b46a    b4              ??          B4h                                     
-ROM:ram:b46b    b3              ??          B3h                                     
-ROM:ram:b46c    a6              ??          A6h                                     
-ROM:ram:b46d    14              ??          14h                                     
-ROM:ram:b46e    70              ??          70h    p                                
-ROM:ram:b46f    b4              ??          B4h                                     
-ROM:ram:b470    0f              ??          0Fh                                     
-ROM:ram:b471    00              ??          00h                                     
-ROM:ram:b472    0f              ??          0Fh                                     
-ROM:ram:b473    04              ??          04h                                     
-ROM:ram:b474    0f              ??          0Fh                                     
-ROM:ram:b475    08              ??          08h                                     
-ROM:ram:b476    7c              ??          7Ch    |                                
-ROM:ram:b477    b4              ??          B4h                                     
-ROM:ram:b478    b4              ??          B4h                                     
-ROM:ram:b479    71              ??          71h    q                                
-ROM:ram:b47a    ff              ??          FFh                                     
-ROM:ram:b47b    bf              ??          BFh                                     
-ROM:ram:b47c    f0              ??          F0h                                     
-ROM:ram:b47d    1f              ??          1Fh                                     
-ROM:ram:b47e    18              ??          18h                                     
-ROM:ram:b47f    cb              ??          CBh                                     
-ROM:ram:b480    a8              ??          A8h                                     
-ROM:ram:b481    87              ??          87h                                     
-ROM:ram:b482    b4              ??          B4h                                     
-ROM:ram:b483    a1              ??          A1h                                     
-ROM:ram:b484    b4              ??          B4h                                     
-ROM:ram:b485    bb              ??          BBh                                     
-ROM:ram:b486    b4              ??          B4h                                     
-ROM:ram:b487    06              ??          06h                                     
-ROM:ram:b488    04              ??          04h                                     
-ROM:ram:b489    1f              ??          1Fh                                     
-ROM:ram:b48a    20              ??          20h                                     
-ROM:ram:b48b    21              ??          21h    !                                
-ROM:ram:b48c    22              ??          22h    "                                
-ROM:ram:b48d    23              ??          23h    #                                
-ROM:ram:b48e    1f              ??          1Fh                                     
-ROM:ram:b48f    24              ??          24h    $                                
-ROM:ram:b490    25              ??          25h    %                                
-ROM:ram:b491    26              ??          26h    &                                
-ROM:ram:b492    27              ??          27h    '                                
-ROM:ram:b493    28              ??          28h    (                                
-ROM:ram:b494    29              ??          29h    )                                
-ROM:ram:b495    1f              ??          1Fh                                     
-ROM:ram:b496    2a              ??          2Ah    *                                
-ROM:ram:b497    2b              ??          2Bh    +                                
-ROM:ram:b498    2c              ??          2Ch    ,                                
-ROM:ram:b499    2d              ??          2Dh    -                                
-ROM:ram:b49a    1f              ??          1Fh                                     
-ROM:ram:b49b    2e              ??          2Eh    .                                
-ROM:ram:b49c    2f              ??          2Fh    /                                
-ROM:ram:b49d    30              ??          30h    0                                
-ROM:ram:b49e    31              ??          31h    1                                
-ROM:ram:b49f    32              ??          32h    2                                
-ROM:ram:b4a0    33              ??          33h    3                                
-ROM:ram:b4a1    06              ??          06h                                     
-ROM:ram:b4a2    04              ??          04h                                     
-ROM:ram:b4a3    34              ??          34h    4                                
-ROM:ram:b4a4    35              ??          35h    5                                
-ROM:ram:b4a5    36              ??          36h    6                                
-ROM:ram:b4a6    37              ??          37h    7                                
-ROM:ram:b4a7    1f              ??          1Fh                                     
-ROM:ram:b4a8    1f              ??          1Fh                                     
-ROM:ram:b4a9    38              ??          38h    8                                
-ROM:ram:b4aa    39              ??          39h    9                                
-ROM:ram:b4ab    3a              ??          3Ah    :                                
-ROM:ram:b4ac    3b              ??          3Bh    ;                                
-ROM:ram:b4ad    1f              ??          1Fh                                     
-ROM:ram:b4ae    1f              ??          1Fh                                     
-ROM:ram:b4af    3c              ??          3Ch    <                                
-ROM:ram:b4b0    3d              ??          3Dh    =                                
-ROM:ram:b4b1    3e              ??          3Eh    >                                
-ROM:ram:b4b2    3f              ??          3Fh    ?                                
-ROM:ram:b4b3    40              ??          40h    @                                
-ROM:ram:b4b4    1f              ??          1Fh                                     
-ROM:ram:b4b5    41              ??          41h    A                                
-ROM:ram:b4b6    42              ??          42h    B                                
-ROM:ram:b4b7    43              ??          43h    C                                
-ROM:ram:b4b8    44              ??          44h    D                                
-ROM:ram:b4b9    45              ??          45h    E                                
-ROM:ram:b4ba    1f              ??          1Fh                                     
-ROM:ram:b4bb    06              ??          06h                                     
-ROM:ram:b4bc    04              ??          04h                                     
-ROM:ram:b4bd    7b              ??          7Bh    {                                
-ROM:ram:b4be    7b              ??          7Bh    {                                
-ROM:ram:b4bf    93              ??          93h                                     
-ROM:ram:b4c0    92              ??          92h                                     
-ROM:ram:b4c1    91              ??          91h                                     
-ROM:ram:b4c2    90              ??          90h                                     
-ROM:ram:b4c3    7b              ??          7Bh    {                                
-ROM:ram:b4c4    7b              ??          7Bh    {                                
-ROM:ram:b4c5    97              ??          97h                                     
-ROM:ram:b4c6    96              ??          96h                                     
-ROM:ram:b4c7    95              ??          95h                                     
-ROM:ram:b4c8    94              ??          94h                                     
-ROM:ram:b4c9    7b              ??          7Bh    {                                
-ROM:ram:b4ca    9c              ??          9Ch                                     
-ROM:ram:b4cb    9b              ??          9Bh                                     
-ROM:ram:b4cc    9a              ??          9Ah                                     
-ROM:ram:b4cd    99              ??          99h                                     
-ROM:ram:b4ce    98              ??          98h                                     
-ROM:ram:b4cf    7b              ??          7Bh    {                                
-ROM:ram:b4d0    a1              ??          A1h                                     
-ROM:ram:b4d1    a0              ??          A0h                                     
-ROM:ram:b4d2    9f              ??          9Fh                                     
-ROM:ram:b4d3    9e              ??          9Eh                                     
-ROM:ram:b4d4    9d              ??          9Dh                                     
+                            COMPLEX_OBJECT_DONKEY_KONG:   ;XREF[1,0]:   ram:8c39
+ROM:ram:b43d    45b4            dw          B445h                                   ;COMPLEX OBJECT
+                                                                                    ;{@address 0xB445} Graphics
+ROM:ram:b43f    cd71            dw          71CDh                                   ;{@address 0x71CD} Status object
+ROM:ram:b441    64b4            dw          B464h                                   ;{@address 0xB464} 1st Component
+ROM:ram:b443    76b4            dw          B476h                                   ;{@address 0xB476} 2nd Component
+                            DONKEY_KONG_GRAPHICS:         
+ROM:ram:b445    24              db          24h                                     ;Complex Obj with 2 components
+ROM:ram:b446    52b4            addr        DONKEY_KONG_GRAPHICS_FRAME0             ;Now a list of pointers to each frames
+                                                                                    ;with frame #s and pixel offsets rela...
+                                                                                    ;
+ROM:ram:b448    58b4            addr        DONKEY_KONG_GRAPHICS_OFFSET0            ;...
+ROM:ram:b44a    54b4            addr        DONKEY_KONG_GRAPHICS_FRAME1             ;...
+ROM:ram:b44c    5cb4            addr        DONKEY_KONG_GRAPHICS_OFFSET1            ;...
+ROM:ram:b44e    56b4            addr        DONKEY_KONG_GRAPHICS_FRAME2             ;...
+ROM:ram:b450    60b4            addr        DONKEY_JONG_GRAPHICS_OFFSET2            ;...end of list
+                            DONKEY_KONG_GRAPHICS_FRAME0:  ;XREF[1,0]:   ram:b446
+ROM:ram:b452    00              db          0h                                      ;component 0 uses frame 0
+ROM:ram:b453    00              db          0h                                      ;component 1 uses frame 0
+                            DONKEY_KONG_GRAPHICS_FRAME1:  ;XREF[1,0]:   ram:b44a
+ROM:ram:b454    01              db          1h                                      ;component 0 uses frame 1
+ROM:ram:b455    01              db          1h                                      ;component 1 uses frame 1
+                            DONKEY_KONG_GRAPHICS_FRAME2:  ;XREF[1,0]:   ram:b44e
+ROM:ram:b456    02              db          2h                                      ;component 0 uses frame 2
+ROM:ram:b457    02              db          2h                                      ;component 1 uses frame 2
+                            DONKEY_KONG_GRAPHICS_OFFSET0: ;XREF[1,0]:   ram:b448
+ROM:ram:b458    10              db          10h                                     ;X offset frame 0 component 0
+ROM:ram:b459    00              db          0h                                      ;Y offset frame 0 component 0
+ROM:ram:b45a    00              db          0h                                      ;X offset frame 0 component 1
+ROM:ram:b45b    00              db          0h                                      ;Y offset frame 0 component 1
+                            DONKEY_KONG_GRAPHICS_OFFSET1: ;XREF[1,0]:   ram:b44c
+ROM:ram:b45c    00              db          0h                                      ;X offset frame 1 component 0
+ROM:ram:b45d    00              db          0h                                      ;Y offset frame 1 component 0
+ROM:ram:b45e    00              db          0h                                      ;X offset frame 1 component 1
+ROM:ram:b45f    00              db          0h                                      ;Y offset frame 1 component 1
+                            DONKEY_JONG_GRAPHICS_OFFSET2: ;XREF[1,0]:   ram:b450
+ROM:ram:b460    20              db          20h                                     ;X offset frame 2 component 0
+ROM:ram:b461    00              db          0h                                      ;Y offset frame 2 component 0
+ROM:ram:b462    00              db          0h                                      ;X offset frame 2 component 1
+ROM:ram:b463    00              db          0h                                      ;Y offset frame 2 component 1
+                            DONKEY_KONG_HEAD_SPRITE_OBJ...
+ROM:ram:b464    69b4            addr        DONKEY_KONG_HEAD_SPRITE_GRAPHICS        ;{@address 0xB469} GRAPHICS
+ROM:ram:b466    d471            char *      RAM:DONKEY_KONG_HEAD_SPRITE_STATUS      ;{@address 0x71D4} STATUS
+ROM:ram:b468    0c              db          Ch                                      ;START AT SPRITE INDEX 0x0C
+                            DONKEY_KONG_HEAD_SPRITE_GRA...;XREF[1,0]:   ram:b464
+ROM:ram:b469    03              db          OBJ_TYPE_SPRITE                         
+ROM:ram:b46a    b4              db          B4h                                     ;Donkey Kong's Face starts at sprite ...
+ROM:ram:b46b    b3a6            addr        DONKEY_KONG_HEAD_GENERATORS             ;pointer to generator bitmaps
+ROM:ram:b46d    14              db          DONKEY_KONG_HEAD_NUMGEN                 ;20 ($14) generators used
+ROM:ram:b46e    70b4            addr        DONKEY_KONG_FRAME_TABLE                 ;pointer to frame table
+                            DONKEY_KONG_FRAME_TABLE:      ;XREF[1,0]:   ram:b46e
+ROM:ram:b470    0f              db          WHITE_ON_TRANSPARENT                    
+ROM:ram:b471    00              db          0h                                      ;$B4 straight ahead
+ROM:ram:b472    0f              db          WHITE_ON_TRANSPARENT                    
+ROM:ram:b473    04              db          4h                                      ;$B8 facing left
+ROM:ram:b474    0f              db          WHITE_ON_TRANSPARENT                    
+ROM:ram:b475    08              db          8h                                      ;$BC Facing right
+                            DONKEY_KONG_BODY_SMO:         
+ROM:ram:b476    7cb4            addr        DONKEY_KONG_BODY_GRAPHICS               ;Donkey Kong Body Graphics
+ROM:ram:b478    b471            addr        RAM:DONKEY_KONG_BODY_STATUS             ;Donkey Kong Body Status
+ROM:ram:b47a    ffbf            addr        NOT_USED                                ;Old Screen Data not used; disable.
+                            DONKEY_KONG_BODY_GRAPHICS:    ;XREF[1,0]:   ram:b476
+ROM:ram:b47c    f0              db          F0h                                     ;OBJ TYPE 0 (SMO) appearing in all 3 ...
+ROM:ram:b47d    1f              db          1Fh                                     ;FIRST GEN USED IS $1F
+ROM:ram:b47e    18              ??          18h                                     ;Kong body needs 24 ($18) gens in total
+ROM:ram:b47f    cba8            addr        DONKEY_JONG_BODY_GENERATORS             ;Ptr to Kong Body Generators
+ROM:ram:b481    87b4            addr        DONKEY_KONG_BODY_FRAME0                 ;Ptr to Donkey Kong Body Frame 0
+ROM:ram:b483    a1b4            addr        DONKEY_KONG_BODY_FRAME1                 ;Ptr to Donkey Kong Body Frame 1
+ROM:ram:b485    bbb4            addr        DONKEY_KONG_BODY_FRAME2                 ;Ptr to Donkey Kong Body Frame 2
+                            DONKEY_KONG_BODY_FRAME0:      ;XREF[1,0]:   ram:b481
+ROM:ram:b487    06              db          6h                                      ;Donkey Kong Body X extent for Frame 0
+ROM:ram:b488    04              db          4h                                      ;Donkey Kong Body Y extent for Frame 0
+ROM:ram:b489    1f              db          1Fh                                     ;Generator for X 0 Y 0
+ROM:ram:b48a    20              db          20h                                     ;Generator for X 1 Y 0
+ROM:ram:b48b    21              db          21h                                     ;Generator for X 2 Y 0
+ROM:ram:b48c    22              db          22h                                     ;Generator for X 3 Y 0
+ROM:ram:b48d    23              db          23h                                     ;Generator for X 4 Y 0
+ROM:ram:b48e    1f              db          1Fh                                     ;Generator for X 5 Y 0
+ROM:ram:b48f    24              db          24h                                     ;Generator for X 0 Y 1
+ROM:ram:b490    25              db          25h                                     ;Generator for X 1 Y 1
+ROM:ram:b491    26              db          26h                                     ;Generator for X 2 Y 1
+ROM:ram:b492    27              db          27h                                     ;Generator for X 3 Y 1
+ROM:ram:b493    28              db          28h                                     ;Generator for X 4 Y 1
+ROM:ram:b494    29              db          29h                                     ;Generator for X 5 Y 1
+ROM:ram:b495    1f              db          1Fh                                     ;Generator for X 0 Y 2
+ROM:ram:b496    2a              db          2Ah                                     ;Generator for X 1 Y 2
+ROM:ram:b497    2b              db          2Bh                                     ;Generator for X 2 Y 2
+ROM:ram:b498    2c              db          2Ch                                     ;Generator for X 3 Y 2
+ROM:ram:b499    2d              db          2Dh                                     ;Generator for X 4 Y 2
+ROM:ram:b49a    1f              db          1Fh                                     ;Generator for X 5 Y 2
+ROM:ram:b49b    2e              db          2Eh                                     ;Generator for X 0 Y 3
+ROM:ram:b49c    2f              db          2Fh                                     ;Generator for X 1 Y 3
+ROM:ram:b49d    30              db          30h                                     ;Generator for X 2 Y 3
+ROM:ram:b49e    31              db          31h                                     ;Generator for X 3 Y 3
+ROM:ram:b49f    32              db          32h                                     ;Generator for X 4 Y 3
+ROM:ram:b4a0    33              db          33h                                     ;Generator for X 5 Y 3
+                            DONKEY_KONG_BODY_FRAME1:      ;XREF[1,0]:   ram:b483
+ROM:ram:b4a1    06              db          6h                                      ;Donkey Kong Body X Extent for Frame 1
+ROM:ram:b4a2    04              db          4h                                      ;Donkey Kong Body Y Extent for Frame 1
+ROM:ram:b4a3    34              db          34h                                     ;Generator for X 0 Y 0
+ROM:ram:b4a4    35              db          35h                                     ;Generator for X 1 Y 0
+ROM:ram:b4a5    36              db          36h                                     ;Generator for X 2 Y 0
+ROM:ram:b4a6    37              db          37h                                     ;Generator for X 3 Y 0
+ROM:ram:b4a7    1f              db          1Fh                                     ;Generator for X 4 Y 0
+ROM:ram:b4a8    1f              db          1Fh                                     ;Generator for X 5 Y 0
+ROM:ram:b4a9    38              db          38h                                     ;Generator for X 0 Y 1
+ROM:ram:b4aa    39              db          39h                                     ;Generator for X 1 Y 1
+ROM:ram:b4ab    3a              db          3Ah                                     ;Generator for X 2 Y 1
+ROM:ram:b4ac    3b              db          3Bh                                     ;Generator for X 3 Y 1
+ROM:ram:b4ad    1f              db          1Fh                                     ;Generator for X 4 Y 1
+ROM:ram:b4ae    1f              db          1Fh                                     ;Generator for X 5 Y 1
+ROM:ram:b4af    3c              db          3Ch                                     ;Generator for X 0 Y 2
+ROM:ram:b4b0    3d              db          3Dh                                     ;Generator for X 1 Y 2
+ROM:ram:b4b1    3e              db          3Eh                                     ;Generator for X 2 Y 2
+ROM:ram:b4b2    3f              db          3Fh                                     ;Generator for X 3 Y 2
+ROM:ram:b4b3    40              db          40h                                     ;Generator for X 4 Y 2
+ROM:ram:b4b4    1f              db          1Fh                                     ;Generator for X 5 Y 2
+ROM:ram:b4b5    41              db          41h                                     ;Generator for X 0 Y 3
+ROM:ram:b4b6    42              db          42h                                     ;Generator for X 1 Y 3
+ROM:ram:b4b7    43              db          43h                                     ;Generator for X 2 Y 3
+ROM:ram:b4b8    44              db          44h                                     ;Generator for X 3 Y 3
+ROM:ram:b4b9    45              db          45h                                     ;Generator for X 4 Y 3
+ROM:ram:b4ba    1f              db          1Fh                                     ;Generator for X 5 Y 3
+                            DONKEY_KONG_BODY_FRAME2:      ;XREF[1,0]:   ram:b485
+ROM:ram:b4bb    06              db          6h                                      ;Donkey Kong Body X Extent for frame 2
+ROM:ram:b4bc    04              db          4h                                      ;Donkey Kong Body Y Extent for frame 2
+ROM:ram:b4bd    7b              db          7Bh                                     ;Generator for X 0 Y 0
+ROM:ram:b4be    7b              db          7Bh                                     ;Generator for X 1 Y 0
+ROM:ram:b4bf    93              db          93h                                     ;Generator for X 2 Y 0
+ROM:ram:b4c0    92              db          92h                                     ;Generator for X 3 Y 0
+ROM:ram:b4c1    91              db          91h                                     ;Generator for X 4 Y 0
+ROM:ram:b4c2    90              db          90h                                     ;Generator for X 5 Y 0
+ROM:ram:b4c3    7b              db          7Bh                                     ;Generator for X 0 Y 1
+ROM:ram:b4c4    7b              db          7Bh                                     ;Generator for X 1 Y 1
+ROM:ram:b4c5    97              db          97h                                     ;Generator for X 2 Y 1
+ROM:ram:b4c6    96              db          96h                                     ;Generator for X 3 Y 1
+ROM:ram:b4c7    95              db          95h                                     ;Generator for X 4 Y 1
+ROM:ram:b4c8    94              db          94h                                     ;Generator for X 5 Y 1
+ROM:ram:b4c9    7b              db          7Bh                                     ;Generator for X 0 Y 2
+ROM:ram:b4ca    9c              db          9Ch                                     ;Generator for X 1 Y 2
+ROM:ram:b4cb    9b              db          9Bh                                     ;Generator for X 2 Y 2
+ROM:ram:b4cc    9a              db          9Ah                                     ;Generator for X 3 Y 2
+ROM:ram:b4cd    99              db          99h                                     ;Generator for X 4 Y 2
+ROM:ram:b4ce    98              db          98h                                     ;Generator for X 5 Y 2
+ROM:ram:b4cf    7b              db          7Bh                                     ;Generator for X 0 Y 3
+ROM:ram:b4d0    a1              db          A1h                                     ;Generator for X 1 Y 3
+ROM:ram:b4d1    a0              db          A0h                                     ;Generator for X 2 Y 3
+ROM:ram:b4d2    9f              db          9Fh                                     ;Generator for X 3 Y 3
+ROM:ram:b4d3    9e              db          9Eh                                     ;Generator for X 4 Y 3
+ROM:ram:b4d4    9d              db          9Dh                                     ;Generator for X 5 Y 3
 ROM:ram:b4d5    db              ??          DBh                                     
 ROM:ram:b4d6    b4              ??          B4h                                     
 ROM:ram:b4d7    90              ??          90h                                     
@@ -21308,6 +21305,7 @@ ROM:ram:bffb    ff              ??          FFh
 ROM:ram:bffc    ff              ??          FFh                                     
 ROM:ram:bffd    ff              ??          FFh                                     
 ROM:ram:bffe    ff              ??          FFh                                     
+                            NOT_USED:                     ;XREF[1,0]:   ram:b47a
 ROM:ram:bfff    ff              ??          FFh                                     
 IO:io:0000                      ??          ??                                      
 IO:io:0001                      ??          ??                                      
