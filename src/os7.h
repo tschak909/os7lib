@@ -603,4 +603,9 @@ void activate(void *object, bool move);
  */
 void put_obj(void *object, unsigned char bkg_mode);
 
+/**
+ * VDP_STATUS_BYTE - RAM location for VDP Status register
+ */
+#define VDP_STATUS_BYTE (*(unsigned char *)0x73c5)
+
 #endif /* OS7_H */
