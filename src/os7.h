@@ -175,7 +175,7 @@ typedef struct _mob
  * @brief the frame data for a given SMO GRAPHICS object
  */
 #define SMOFrame(n)				\
-  typedef struct _smo_frame_n			\
+  typedef struct				\
   {						\
     unsigned char x_extent;			\
     unsigned char y_extent;			\
@@ -186,7 +186,7 @@ typedef struct _mob
  * @brief the frame data for a given SMO GRAPHICS object
  */
 #define SMOOldScreen(n)				\
-  typedef struct _smo_old_screen_n		\
+  typedef struct				\
   {						\
     unsigned char x_pat_pos;			\
     unsigned char y_pat_pos;			\
@@ -218,7 +218,7 @@ typedef struct _mob_old_screen
  * @brief a SMO GRAPHICS object defining n of frames
  */
 #define SMOGraphics(n,FrameObj)			\
-  typedef struct _smo_graphics_n		\
+  typedef struct				\
   {						\
     unsigned char obj_type;			\
     unsigned char first_gen_name;		\
@@ -231,7 +231,7 @@ typedef struct _mob_old_screen
  * @brief a MOB GRAPHICS object defining n of frames
  */
 #define MOBGraphics(n)				\
-  typedef struct _mob_graphics_n		\
+  typedef struct				\
   {						\
     unsigned char obj_type;			\
     unsigned char numgen;			\
@@ -445,6 +445,16 @@ void reflect_horizontal(VDPTable table, unsigned short source, unsigned short de
 void rotate_90(VDPTable table, unsigned short source, unsigned short destination, unsigned short count);
 
 /**
+ * ENLARGE - Double the size of each pattern into destination.
+ *
+ * @param table The table to operate on (see VDPTable typedef in os7.h)
+ * @param source The index to start transformation
+ * @param destination The index to place the transformed generators
+ * @param count The number of items to transform
+ */
+void enlarge(VDPTable table, unsigned short source, unsigned short destination, unsigned short count);
+
+/**
  * INIT_SPR_ORDER - Initialize the sprite order table with SPRITE_COUNT entries
  *
  * @param SPRITE_COUNT Number of sprites to initialize table with
@@ -607,5 +617,10 @@ void put_obj(void *object, unsigned char bkg_mode);
  * VDP_STATUS_BYTE - RAM location for VDP Status register
  */
 #define VDP_STATUS_BYTE (*(unsigned char *)0x73c5)
+
+/**
+ * DEFER_WRITES - RAM location to turn on/off deferred writes
+ */
+#define DEFER_WRITES (*(unsigned char *)0x73c6)
 
 #endif /* OS7_H */
