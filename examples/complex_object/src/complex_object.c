@@ -11,6 +11,7 @@
 #include <intrinsic.h>
 #include <stdbool.h>
 #include "donkey_kong_head.h"
+#include "donkey_kong_body.h"
 
 /**
  * @brief The data structures for the timer table, to support one timer
