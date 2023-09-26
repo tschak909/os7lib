@@ -841,9 +841,9 @@ const DonkeyKongBodyFrame donkeyKongBodyFrame_2 =
 SMOGraphics(3,DonkeyKongBodyFrame) DonkeyKongBodyGraphics; // Define GRAPHICS object type with space for 3 DonkeyKongBodyFrames
 const DonkeyKongBodyGraphics donkeyKongBodyGraphics =
   {
-    0xE0,                             // SEMI mobile object, bit 4 = 1 color for each whole tile, bits 5-7 = put in all three M2 pattern generators
+    0x90,                             // SEMI mobile object, bit 4 = 1 color for each whole tile, bits 5-7 = put in all three M2 pattern generators
     0x1F,                             // This graphics object starts at generator 0x1F
-    0x18,                             // NUMGEN = 0x18, 24 generators need to be transferred for this graphics object
+    0x47,                             // NUMGEN = 0x18, 24 generators need to be transferred for this graphics object
     donkey_kong_body_generators,      // Pointer to the generators above
     {
       donkeyKongBodyFrame_0,          // Pointers to the three FRAME objects
