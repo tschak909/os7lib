@@ -304,6 +304,55 @@ typedef struct _spr_status
   unsigned char next_gen;
 } SprStatus;
 
+/**
+ * @brief a Complex top-level object with n number components
+ */
+#define COMObj(n)				\
+  typedef struct				\
+  {						\
+    void *graphics;				\
+    void *status;                               \
+    void *components[n];			\
+  }              				\
+
+/**
+ * @brief A Complex graphics object with n number components
+ */
+#define COMGraphics(n)							\
+  typedef struct							\
+  {									\
+    unsigned char obj_type;						\
+    struct								\
+    {									\
+      void *frame_obj;							\
+      void *offset_obj;							\
+    } ptrs[n];								\
+  }									\
+
+/**
+ * @brief A complex frame, just a frame # to use
+ */
+typedef unsigned char COMFrame;
+
+/**
+ * @brief A Complex offset. X,Y coordinate pairs
+ */
+typedef struct
+{
+  unsigned short x;
+  unsigned short y;
+} COMOffset;
+
+/**
+ * @brief a status object for COMPLEX objects
+ */
+typedef struct
+{
+  unsigned char frame;
+  unsigned short x;
+  unsigned short y;
+} COMStatus;
+
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
 /**
