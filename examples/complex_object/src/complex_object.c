@@ -44,7 +44,8 @@ void main(void)
   mode2_with_size1_sprites(false);              // Set up, but keep screen BLANK
   init_timer(&tt,&td);                          // Set up timer queue
   add_raster_int(vdp_nmi);                      // attach vdp_nmi() to be called on every VDP interrupt.
-  fill_vram(0x2000,6144,0xF1);                  // Fill the whole mode2 color table with white on black.
+
+  activate(donkey_kong_body_obj,false);
 
   // Create frame 2 of Donkey Kong's body by reflecting the generators
   // used for the other frames, starting at 0x1f, and place them
@@ -53,7 +54,11 @@ void main(void)
 
   // Turn on the screen
   mode2_with_size1_sprites(true);
-      
+
+  donkey_kong_body_status.frame=0;
+  
+  put_obj(donkey_kong_body_obj,0);
+  
   while(1);
   
 }
