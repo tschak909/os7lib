@@ -34,7 +34,7 @@ const COMFrame donkey_kong_frame2[2] =
 const COMOffset donkey_kong_offset0[2] =
   {
     {
-      10, // frame 0 component 0 rX position
+      16, // frame 0 component 0 rX position
       0   // frame 0 component 0 rY position
     },
     {
@@ -58,7 +58,7 @@ const COMOffset donkey_kong_offset1[2] =
 const COMOffset donkey_kong_offset2[2] =
   {
     {
-      20, // frame 2 component 0 rX position
+      32, // frame 2 component 0 rX position
       0   // frame 2 component 0 rY position
     },
     {

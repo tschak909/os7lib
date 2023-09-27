@@ -59,22 +59,19 @@ void main(void)
 
   donkey_kong_status.x=0xb8;
   donkey_kong_status.y=0x10;
-  donkey_kong_status.frame=2;
 
-  put_obj(donkey_kong_obj,false);
-  
-  /* donkey_kong_head_status.x=0xc8; */
-  /* donkey_kong_head_status.y=0x10; */
-  /* donkey_kong_body_status.x=0xb8; */
-  /* donkey_kong_body_status.y=0x10; */
-  /* donkey_kong_head_status.frame=donkey_kong_body_status.frame=2; */
-  /* put_obj(donkey_kong_head_obj,false); */
-  /* put_obj(donkey_kong_body_obj,false); */
-  
-  // Turn on the screen
-  
   mode2_with_size1_sprites(true);
-
-  while(1);
   
+  while (1)
+    {
+      SignalNum wait = request_signal(30,false);
+      donkey_kong_status.frame++;
+
+      if (donkey_kong_status.frame>2)
+	donkey_kong_status.frame=0;
+      
+      put_obj(donkey_kong_obj,false);
+
+      while (!test_signal(wait));
+    }    
 }
