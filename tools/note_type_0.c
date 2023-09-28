@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
   fp = (unsigned char *)&note_freq_atn;
 
   // Print the result
-  printf("0x%02x, 0x%02x, 0x%02x, 0x%02x\n",cp[0], fp[0], fp[1], len);
+  printf("0x%02x, 0x%02x, 0x%02x, 0x%02x,\n",cp[0], fp[0], fp[1], len);
 
   // and exit
   return 0;
