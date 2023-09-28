@@ -4,7 +4,7 @@ This directory contains tools I put together while creating the example programs
 
 ## note_type_0
 
-Generate the data values for a type 0 note, which has a fixed frequency and duration.
+Generate the data values for a type 0 note, which has a fixed frequency and duration, as a set of C format hex bytes.
 
 ```sh
 ./note_type_0 <channel-0-to-3> <freq-in-hz> <atn> <duration-in-frames>
@@ -19,4 +19,13 @@ Building:
 
 ```sh
 gcc -onote_type_0 note_type_0.c
+```
+
+Example:
+
+Generate a middle C (427Hz) note on channel 1 at almost full volume that lasts for 40 frames (roughly 2/3rds of a second)
+
+```sh
+./note_type_0 1 427 1 40
+0x40, 0xab, 0x11, 0x28
 ```
