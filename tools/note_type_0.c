@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #define REQUIRED_ARGC 4
+#define SYSTEM_CLOCK_IN_HZ 3579545
 
 typedef struct _type0_note_channel
 {
@@ -27,6 +28,16 @@ Type0NoteChannel note_channel;
 Type0NoteFreqAtn note_freq_atn;
 unsigned char len;
 
+unsigned short freq_to_div(unsigned short f)
+{
+  unsigned short n = SYSTEM_CLOCK_IN_HZ / (32 * f);
+
+  if (n>1023)
+    n=1023;
+
+  return n;
+}
+
 int main(int argc, char* argv[])
 {
   unsigned char *fp=NULL, *cp=NULL; // pointers to the bit packed fields
@@ -39,7 +50,7 @@ int main(int argc, char* argv[])
 
   // Fill out the fields
   note_channel.channel    = atoi(argv[1]);
-  note_freq_atn.frequency = atoi(argv[2]);
+  note_freq_atn.frequency = freq_to_div(atoi(argv[2]));
   note_freq_atn.atn       = atoi(argv[3]);
   len                     = atoi(argv[4]);
 
@@ -48,6 +59,7 @@ int main(int argc, char* argv[])
   cp = (unsigned char *)&note_channel;
   fp = (unsigned char *)&note_freq_atn;
 
+  
   // Print the result
   printf("0x%02x, 0x%02x, 0x%02x, 0x%02x,\n",cp[0], fp[0], fp[1], len);
 
