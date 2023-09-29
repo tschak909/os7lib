@@ -34,5 +34,6 @@ void main(void)
   put_vram(PATTERN_NAME_TABLE,0x04,signon,sizeof(signon));
   write_register(0x01,0xE0);
   play_it(1);
+  play_it(2);
   while(1);
 }

@@ -11,7 +11,7 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS := $(OBJS:.o=.d)
 
 CFLAGS=+coleco -I../../src
-LDFLAGS=+coleco -m -s -pragma-define:CRT_ENABLE_STDIO=0 -pragma-define:REGISTER_SP=0x73B8  -pragma-define:CLIB_FOPEN_MAX=0 -pragma-define:fputc_cons=0 -pragma-define:CLIB_DEFAULT_SCREEN_MODE=-1 -L../.. -los7 -o$(TARGET_EXEC) -create-app 
+LDFLAGS=+coleco -m -s -pragma-define:CRT_ENABLE_STDIO=0 -pragma-define:REGISTER_SP=0x73B8  -pragma-define:CLIB_FOPEN_MAX=0 -pragma-define:fputc_cons=0 -pragma-define:CLIB_DEFAULT_SCREEN_MODE=-1 -pragma-define:CRT_ORG_BSS=0x708C -L../.. -los7 -o$(TARGET_EXEC) -create-app 
 ASFLAGS=+coleco
 
 INC_DIRS := $(shell find $(SRC_DIRS) -type d)
