@@ -353,6 +353,31 @@ typedef struct
   unsigned short y;
 } COMStatus;
 
+/**
+ * @brief A structure for the controller data area
+ */
+typedef struct
+{
+  unsigned char player1_enable;
+  unsigned char player2_enable;
+  struct
+  {
+    unsigned char left_button;
+    unsigned char joystick;
+    unsigned char spinner_count;
+    unsigned char right_button;
+    unsigned char keyboard;
+  } player1;
+  struct
+  {
+    unsigned char left_button;
+    unsigned char joystick;
+    unsigned char spinner_count;
+    unsigned char right_button;
+    unsigned char keyboard;
+  } player2;
+} ControllerData;
+
 // FUNCTIONS ////////////////////////////////////////////////////////////
 
 /**
