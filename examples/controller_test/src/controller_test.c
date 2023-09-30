@@ -64,45 +64,45 @@ const char p1_header[]="PLAYER  1";
 const char p2_header[]="PLAYER  2";
 const char up_1[] = "UP";
 const char up_0[] = "  ";
-const char down_1 = "DOWN";
-const char down_0 = "    ";
-const char left_1 = "LEFT";
-const char left_0 = "    ";
-const char right_1 = "RIGHT";
-const char right_0 = "     ";
-const char lbut_1 = "LBUT";
-const char lbut_0 = "    ";
-const char rbut_1 = "RBUT";
-const char rbut_0 = "    ";
-const char kp_1_1 = "1";
-const char kp_1_0 = " ";
-const char kp_2_1 = "2";
-const char kp_2_0 = " ";
-const char kp_3_1 = "3";
-const char kp_3_0 = " ";
-const char kp_4_1 = "4";
-const char kp_4_0 = " ";
-const char kp_5_1 = "5";
-const char kp_5_0 = " ";
-const char kp_6_1 = "6";
-const char kp_6_0 = " ";
-const char kp_7_1 = "7";
-const char kp_7_0 = " ";
-const char kp_8_1 = "8";
-const char kp_8_0 = " ";
-const char kp_9_1 = "9";
-const char kp_9_0 = " ";
-const char kp_0_1 = "0";
-const char kp_0_0 = " ";
-const char kp_A_1 = "*";
-const char kp_A_0 = " ";
-const char kp_P_1 = "#";
-const char kp_P_0 = " ";
+const char down_1[] = "DOWN";
+const char down_0[] = "    ";
+const char left_1[] = "LEFT";
+const char left_0[] = "    ";
+const char right_1[] = "RIGHT";
+const char right_0[] = "     ";
+const char lbut_1[] = "LBUT";
+const char lbut_0[] = "    ";
+const char rbut_1[] = "RBUT";
+const char rbut_0[] = "    ";
+const char kp_1_1[] = "1";
+const char kp_1_0[] = " ";
+const char kp_2_1[] = "2";
+const char kp_2_0[] = " ";
+const char kp_3_1[] = "3";
+const char kp_3_0[] = " ";
+const char kp_4_1[] = "4";
+const char kp_4_0[] = " ";
+const char kp_5_1[] = "5";
+const char kp_5_0[] = " ";
+const char kp_6_1[] = "6";
+const char kp_6_0[] = " ";
+const char kp_7_1[] = "7";
+const char kp_7_0[] = " ";
+const char kp_8_1[] = "8";
+const char kp_8_0[] = " ";
+const char kp_9_1[] = "9";
+const char kp_9_0[] = " ";
+const char kp_0_1[] = "0";
+const char kp_0_0[] = " ";
+const char kp_A_1[] = "*";
+const char kp_A_0[] = " ";
+const char kp_P_1[] = "#";
+const char kp_P_0[] = " ";
+
+ControllerData *c = (ControllerData *)os7_bios_controller; // defined in $Z88DK/include/arch/coleco.h
 
 void show_controllers(void)
-{
-  ControllerData *c = (ControllerData *)os7_bios_controller; // defined in $Z88DK/include/arch/coleco.h
-    
+{    
   put_vram(PATTERN_NAME_TABLE,P1_UP_POS,c->player1.joystick & JOYSTICK_UP_BIT ? up_1 : up_0,sizeof(up_1));
   put_vram(PATTERN_NAME_TABLE,P1_RIGHT_POS,c->player1.joystick & JOYSTICK_RIGHT_BIT ? right_1 : right_0,sizeof(right_1));
   put_vram(PATTERN_NAME_TABLE,P1_DOWN_POS,c->player1.joystick & JOYSTICK_DOWN_BIT ? down_1 : down_0,sizeof(down_1));
@@ -154,6 +154,8 @@ void main(void)
 {
   mode_1();
   load_ascii();
+  c->player1_enable = 0xFF; // read everything
+  c->player2_enable = 0xFF; // read everything
   add_raster_int(nmi);
   fill_vram(0x2000,32,0xF4);
   write_register(0x07,0x04);
@@ -164,10 +166,7 @@ void main(void)
 
   while(1)
     {
-      SignalNum frame_wait = request_signal(1,false); // request signal that triggers on next frame.
-
-      show_controllers();
-      
-      while (test_signal(frame_wait)); // Wait for signal to end
+      if (!(VDP_STATUS_BYTE & 0x80))
+	show_controllers();      
     }
 }
