@@ -62,33 +62,39 @@ unsigned char queue[48];
 MOBStatus status;
 MOBOldScreen oldScreen;
 
-const MOBFrame frame = {0x00,0x01,0x02,0x03,0xB0};
+const MOBFrame frame = {0x20,0x21,0x22,0x23,0xB0};
 MOBGraphics(1) Graphics;
 const Graphics graphics = {MOBILE,4,newgen,pacman_right_horizontal,{frame}};
-const MOB mob = {graphics,status,oldScreen,0x10};
+const MOB mob = {graphics,status,oldScreen,0x20};
 
 static void vdp_nmi(void)
 {
   M_PRESERVE_ALL;
   writer();
   time_mgr();
+  VDP_STATUS_BYTE=read_register();
   M_RESTORE_ALL;
 }
 
 void main(void)
 {
   init_timer(&tt,&td);
-  init_writer(queue,16);
+  init_writer(queue,15);
   add_raster_int(vdp_nmi);
   mode_1();
   load_ascii();
-  game_opt();
-  put_vram(PATTERN_COLOR_TABLE,0,colors,sizeof(colors)); // Place the color palette.
-  write_register(0x07,0x04);                    // set border to dark blue.
-  blank(true);
-
-  activate(mob,false);
-  put_obj(mob,0);
   
+  write_register(0x07,0x04);                    // set border to dark blue.
+  activate(mob,false);
+
+  write_register(0x01,0xE2);
+  
+  while(1)
+    {
+      status.x++;
+      if (status.x>288)
+	status.x=-32;
+      put_obj(mob,0);
+    }
   while(1);
 }
