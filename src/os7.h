@@ -536,6 +536,12 @@ void enlarge(VDPTable table, unsigned short source, unsigned short destination, 
 void init_spr_order(unsigned char sprite_count);
 
 /**
+ * WR_SPR_NM_TBL - Write entries from local sprite ordering table into VRAM
+ * @param count the # of entries to write
+ */
+void wr_spr_nm_tbl(unsigned char count);
+
+/**
  * LOAD_ASCII - Load ASCII patterns into pattern table in VDP
  */
 void load_ascii(void);
