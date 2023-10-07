@@ -697,4 +697,14 @@ void put_obj(void *object, unsigned char bkg_mode);
  */
 #define DEFER_WRITES (*(unsigned char *)0x73c6)
 
+/**
+ * MUX_SPRITES - if true, write sprites to intermediate ordering table first
+ */
+#define MUX_SPRITES (*(unsigned char *)0x73c7)
+
+/**
+ * RAND_NUM - rand_gen puts its number here
+ */
+#define RAND_NUM (*(unsigned short *)0x73c8)
+
 #endif /* OS7_H */
