@@ -44,7 +44,16 @@ check:
 
 clean:
 	$(RM) -r os7.lib $(BUILD_DIR)
+	$(MAKE) -C examples/complex_object $@
+	$(MAKE) -C examples/controller_test $@
+	$(MAKE) -C examples/enlarge $@
 	$(MAKE) -C examples/mobile_object $@
+	$(MAKE) -C examples/mode_2 $@
+	$(MAKE) -C examples/reflect_horizontal $@
+	$(MAKE) -C examples/reflect_vertical $@
+	$(MAKE) -C examples/rotate_90 $@
+	$(MAKE) -C examples/sound_demo $@
+	$(MAKE) -C examples/sprite $@
 
 -include $(DEPS)
 
